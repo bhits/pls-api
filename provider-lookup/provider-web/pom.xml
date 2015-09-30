@@ -1,0 +1,164 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.feisystems.provider</groupId>
+		<artifactId>provider-lookup</artifactId>
+		<version>2.1.0-SNAPSHOT</version>
+		<relativePath>..</relativePath>
+	</parent>
+
+	<artifactId>provider-web</artifactId>
+	<packaging>war</packaging>
+	<name>Provider Web</name>
+
+	<dependencies>
+		<!-- Our Own Projects: Start -->
+		<dependency>
+			<groupId>com.feisystems.provider</groupId>
+			<artifactId>provider-service</artifactId>
+		</dependency>
+		<!-- Our Own Projects: End -->
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-dbcp2</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+		</dependency>
+
+		<!-- Jasypt -->
+		<dependency>
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt-spring31</artifactId>
+		</dependency>
+
+		<!-- Test -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+		</dependency>
+
+	</dependencies>
+	
+	<profiles>
+		<!-- To include logger test: mvn clean install -PloggerCheck -->
+		<profile>
+			<id>loggerCheck</id>
+			<build>
+				<finalName>provider-web</finalName>
+				<plugins>
+					<plugin>
+				        <groupId>org.codehaus.mojo</groupId>
+				        <artifactId>properties-maven-plugin</artifactId>
+				        <version>1.0-alpha-2</version>
+				        <executions>
+				           <!-- Associate the read-project-properties goal with the initialize phase, to read the properties file. -->
+				          <execution>
+				            <phase>initialize</phase>
+				            <goals>
+				              <goal>read-project-properties</goal>
+				            </goals>
+				            <configuration>
+				              <files>
+				                <file>C:/java/catalina.properties</file>
+				              </files>
+				            </configuration>
+				          </execution>
+				        </executions>
+				      </plugin>
+					<!-- mvn tomcat7:run -->
+					<plugin>
+						<groupId>org.apache.tomcat.maven</groupId>
+						<artifactId>tomcat7-maven-plugin</artifactId>
+						<version>2.2</version>
+						<configuration>
+							<path>/${project.build.finalName}</path>
+							<keystoreFile>C:/consent2share.keystore</keystoreFile>
+							<systemProperties>
+								<C2S_KEY>${C2S_KEY}</C2S_KEY>
+								<AUTO_SCAN>${AUTO_SCAN}</AUTO_SCAN>
+								<SCAN_PERIOD>${SCAN_PERIOD}</SCAN_PERIOD>
+								<C2S_PROPS>${C2S_PROPS}</C2S_PROPS>
+							</systemProperties>
+						</configuration>
+						
+						<executions>
+						<!-- At pre-integration-test phase, run the war in an embedded Tomcat server. -->
+							<execution>
+								<id>tomcat-run</id>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>run-war-only</goal>
+								</goals>
+								<configuration>
+									<httpsPort>8447</httpsPort>
+									<port>8087</port>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+</project>
