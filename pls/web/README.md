@@ -120,7 +120,7 @@ There are three main value in the externalized configuration file `logback_inclu
 	
 2. `<property name="LOG_NAME" value="provider-lookup" />`
 
-3. `<property name="com.feisystems.provider_lOGGER.level" value="warn" />`
+3. `<property name="gov.samhsa.pls_lOGGER.level" value="warn" />`
 
 The 1st set the path of generated loggers and 2rd value named the logger file. The 3rd value define logging behavior, developers can change this value to redefine its behavior.  
 

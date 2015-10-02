@@ -7,10 +7,10 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
 	<beans>
-		<bean id="providerMapper" class="com.feisystems.provider.service.mapper.DozerProviderMapper"/>
-		<bean id="providerService" class="com.feisystems.provider.service.ProviderServiceImpl"/>
+		<bean id="providerMapper" class="gov.samhsa.pls.service.mapper.DozerProviderMapper"/>
+		<bean id="providerService" class="gov.samhsa.pls.service.ProviderServiceImpl"/>
 		<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
-		<context:component-scan base-package="com.feisysems.provider"/>
+		<context:component-scan base-package="gov.samhsa.pls"/>
 		<context:property-placeholder location="classpath:providers.properties" />
 		<bean class="org.apache.commons.dbcp2.BasicDataSource" id="dataSource">
 			<property name="driverClassName" value="${database.driverClassName}" />

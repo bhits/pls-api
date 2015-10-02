@@ -9,31 +9,28 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-
-
-
 @Entity
 @Table(name="npi")
 public class Provider implements Serializable {
- 
+
 	private static final long serialVersionUID = 7208730575128032697L;
-	
+
 	@Id
 	@Column(name="npi")
 	@NotNull
 	private String npi;
-	
-	
+
+
 	@Column(name="`Entity Type`")
 	@NotNull
 	private String entityType;
-	
+
 	@ConstructorProperties({})
 	public Provider() {
 		super();
-	}	
-	
-	@ConstructorProperties({"npi", "entityType'", 
+	}
+
+	@ConstructorProperties({"npi", "entityType'",
 		"providerEnumerationDate", "lastUpdateDate"})
 	public Provider(String npi, String entityType,
 			String providerEnumerationDate, String lastUpdateDate) {
@@ -49,86 +46,86 @@ public class Provider implements Serializable {
 
 	@Column(name="`Employer Identification Number (EIN)`")
 	private String employerIdentificationNumber = null;
-	
-	@Column(name="`Is Sole Proprietor`")	
+
+	@Column(name="`Is Sole Proprietor`")
 	private Boolean isSoleProprietor;
 
-	@Column(name="`Is Organization Subpart`")	
+	@Column(name="`Is Organization Subpart`")
 	private Boolean isOrganizationSubpart;
 
-	@Column(name="`Parent Organization LBN`")	
+	@Column(name="`Parent Organization LBN`")
 	private String parentOrganizationLbn = null;
-	
-	@Column(name="`Parent Organization TIN`")	
+
+	@Column(name="`Parent Organization TIN`")
 	private String parentOrganizationTin = null;
-	
-	@Column(name="`Provider Organization Name (Legal Business Name)`")	
+
+	@Column(name="`Provider Organization Name (Legal Business Name)`")
 	private String providerOrganizationName = null;
 
-	@Column(name="`Provider Last Name (Legal Name)`")	
+	@Column(name="`Provider Last Name (Legal Name)`")
 	private String providerLastName = null;
 
-	@Column(name="`Provider First Name`")	
+	@Column(name="`Provider First Name`")
 	private String providerFirstName = null;
 
-	@Column(name="`Provider Middle Name`")	
+	@Column(name="`Provider Middle Name`")
 	private String providerMiddleName = null;
 
-	@Column(name="`Provider Name Prefix Text`")	
+	@Column(name="`Provider Name Prefix Text`")
 	private String providerNamePrefixText = null;
 
-	@Column(name="`Provider Name Suffix Text`")	
+	@Column(name="`Provider Name Suffix Text`")
 	private String providerNameSuffixText = null;
 
-	@Column(name="`Provider Credential Text`")	
+	@Column(name="`Provider Credential Text`")
 	private String providerCredentialText = null;
 
-	@Column(name="`Provider First Line Business Mailing Address`")	
+	@Column(name="`Provider First Line Business Mailing Address`")
 	private String providerFirstLineBusinessMailingAddress = null;
 
-	@Column(name="`Provider Second Line Business Mailing Address`")	
+	@Column(name="`Provider Second Line Business Mailing Address`")
 	private String providerSecondLineBusinessMailingAddress = null;
 
-	@Column(name="`Provider Business Mailing Address City Name`")	
+	@Column(name="`Provider Business Mailing Address City Name`")
 	private String providerBusinessMailingAddressCityName = null;
 
-	@Column(name="`Provider Business Mailing Address State Name`")	
+	@Column(name="`Provider Business Mailing Address State Name`")
 	private String providerBusinessMailingAddressStateName = null;
 
-	@Column(name="`Provider Business Mailing Address Postal Code`")	
+	@Column(name="`Provider Business Mailing Address Postal Code`")
 	private String providerBusinessMailingAddressPostalCode = null;
 
-	@Column(name="`Provider Business Mailing Address Country Code`")	
+	@Column(name="`Provider Business Mailing Address Country Code`")
 	private String providerBusinessMailingAddressCountryCode = null;
 
-	@Column(name="`Provider Business Mailing Address Telephone Number`")	
+	@Column(name="`Provider Business Mailing Address Telephone Number`")
 	private String providerBusinessMailingAddressTelephoneNumber = null;
 
-	@Column(name="`Provider Business Mailing Address Fax Number`")	
+	@Column(name="`Provider Business Mailing Address Fax Number`")
 	private String providerBusinessMailingAddressFaxNumber = null;
 
-	@Column(name="`Provider First Line Business Practice Location Address`")	
+	@Column(name="`Provider First Line Business Practice Location Address`")
 	private String providerFirstLineBusinessPracticeLocationAddress = null;
 
-	@Column(name="`Provider Second Line Business Practice Location Address`")	
+	@Column(name="`Provider Second Line Business Practice Location Address`")
 	private String providerSecondLineBusinessPracticeLocationAddress = null;
 
-	@Column(name="`Provider Business Practice Location Address City Name`")	
+	@Column(name="`Provider Business Practice Location Address City Name`")
 	private String providerBusinessPracticeLocationAddressCityName = null;
 
-	@Column(name="`Provider Business Practice Location Address State Name`")	
+	@Column(name="`Provider Business Practice Location Address State Name`")
 	private String providerBusinessPracticeLocationAddressStateName = null;
 
-	@Column(name="`Provider Business Practice Location Address Postal Code`")	
+	@Column(name="`Provider Business Practice Location Address Postal Code`")
 	private String providerBusinessPracticeLocationAddressPostalCode = null;
 
-	@Column(name="`Provider Business Practice Location Address Country Code`")	
+	@Column(name="`Provider Business Practice Location Address Country Code`")
 	private String providerBusinessPracticeLocationAddressCountryCode = null;
 
-	@Column(name="`Provider Business Practice Location Address Telephone Number`")	
+	@Column(name="`Provider Business Practice Location Address Telephone Number`")
 	private String providerBusinessPracticeLocationAddressTelephoneNumber = null;
 
-	@Column(name="`Provider Business Practice Location Address Fax Number`")	
+	@Column(name="`Provider Business Practice Location Address Fax Number`")
 	private String providerBusinessPracticeLocationAddressFaxNumber = null;
 
 	@NotNull
@@ -140,58 +137,58 @@ public class Provider implements Serializable {
 	@Column(name="`Last Update Date`")
 	private String lastUpdateDate = null;
 
-	@Column(name="`NPI Deactivation Reason Code`")	
+	@Column(name="`NPI Deactivation Reason Code`")
 	private String npideactivationReasonCode = null;
 
-	@Column(name="`NPI Deactivation Reason`")	
+	@Column(name="`NPI Deactivation Reason`")
 	private String npideactivationReason = null;
 
-	@Column(name="`NPI Deactivation Date`")	
+	@Column(name="`NPI Deactivation Date`")
 	private String npideactivationDate = null;
 
-	@Column(name="`NPI Reactivation Date`")	
+	@Column(name="`NPI Reactivation Date`")
 	private String npireactivationDate = null;
 
-	@Column(name="`Provider Gender Code`")	
+	@Column(name="`Provider Gender Code`")
 	private String providerGenderCode = null;
 
-	@Column(name="`Provider Gender`")	
+	@Column(name="`Provider Gender`")
 	private String providerGender = null;
 
-	@Column(name="`Authorized Official Last Name`")	
+	@Column(name="`Authorized Official Last Name`")
 	private String authorizedOfficialLastName = null;
 
-	@Column(name="`Authorized Official First Name`")	
+	@Column(name="`Authorized Official First Name`")
 	private String authorizedOfficialFirstName = null;
 
-	@Column(name="`Authorized Official Middle Name`")	
+	@Column(name="`Authorized Official Middle Name`")
 	private String authorizedOfficialMiddleName = null;
 
-	@Column(name="`Authorized Official Title or Position`")	
+	@Column(name="`Authorized Official Title or Position`")
 	private String authorizedOfficialTitleorPosition = null;
 
-	@Column(name="`Authorized Official Name Prefix Text`")	
+	@Column(name="`Authorized Official Name Prefix Text`")
 	private String authorizedOfficialNamePrefixText = null;
 
-	@Column(name="`Authorized Official Name Suffix Text`")	
+	@Column(name="`Authorized Official Name Suffix Text`")
 	private String authorizedOfficialNameSuffixText = null;
 
-	@Column(name="`Authorized Official Credential Text`")	
+	@Column(name="`Authorized Official Credential Text`")
 	private String authorizedOfficialCredentialText = null;
 
-	@Column(name="`Authorized Official Telephone Number`")	
+	@Column(name="`Authorized Official Telephone Number`")
 	private String authorizedOfficialTelephoneNumber = null;
 
-	@Column(name="`Healthcare Provider Taxonomy Code_1`")	
+	@Column(name="`Healthcare Provider Taxonomy Code_1`")
 	private String healthcareProviderTaxonomyCode_1 = null;
 
-	@Column(name="`Healthcare Provider Taxonomy_1`")	
+	@Column(name="`Healthcare Provider Taxonomy_1`")
 	private String taxonomy = null;
 
-	@Column(name="`Provider License Number_1`")	
+	@Column(name="`Provider License Number_1`")
 	private String providerLicenseNumber_1 = null;
 
-	@Column(name="`Provider License Number State Code_1`")	
+	@Column(name="`Provider License Number State Code_1`")
 	private String providerLicenseNumberStateCode_1 = null;
 
 
@@ -398,7 +395,7 @@ public class Provider implements Serializable {
 			String providerBusinessPracticeLocationAddressFaxNumber) {
 		this.providerBusinessPracticeLocationAddressFaxNumber = providerBusinessPracticeLocationAddressFaxNumber;
 	}
-	
+
 	public String getProviderEnumerationDate() {
 		return providerEnumerationDate;
 	}
@@ -411,7 +408,7 @@ public class Provider implements Serializable {
 	public void setLastUpdateDate(String lastUpdateDate) {
 		this.lastUpdateDate = lastUpdateDate;
 	}
-	
+
 	public String getNpideactivationReasonCode() {
 		return npideactivationReasonCode;
 	}
@@ -424,14 +421,14 @@ public class Provider implements Serializable {
 	public void setNpideactivationReason(String npideactivationReason) {
 		this.npideactivationReason = npideactivationReason;
 	}
-	
+
 	public String getNpideactivationDate() {
 		return npideactivationDate;
 	}
 	public void setNpideactivationDate(String npideactivationDate) {
 		this.npideactivationDate = npideactivationDate;
 	}
-	
+
 	public String getNpireactivationDate() {
 		return npireactivationDate;
 	}
@@ -530,5 +527,5 @@ public class Provider implements Serializable {
 		this.providerLicenseNumberStateCode_1 = providerLicenseNumberStateCode_1;
 	}
 
-	
+
 }

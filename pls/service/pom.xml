@@ -3,20 +3,20 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>com.feisystems.provider</groupId>
-		<artifactId>provider-lookup</artifactId>
-		<version>2.1.0-SNAPSHOT</version>
+		<groupId>gov.samhsa.pls</groupId>
+		<artifactId>pls</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 
-	<artifactId>provider-service</artifactId>
-	<name>Provider Service</name>
+	<artifactId>service</artifactId>
+	<name>Service</name>
 
 	<dependencies>
 		<!-- Our Own Projects: Start -->
 		<dependency>
-			<groupId>com.feisystems.provider</groupId>
-			<artifactId>provider-domain</artifactId>
+			<groupId>gov.samhsa.pls</groupId>
+			<artifactId>domain</artifactId>
 		</dependency>
 		<!-- Our Own Projects: End -->
 

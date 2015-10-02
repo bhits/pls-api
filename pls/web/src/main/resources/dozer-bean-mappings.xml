@@ -6,9 +6,9 @@
 	</configuration>
 	<mapping type="bi-directional" map-null="false"
 		relationship-type="non-cumulative">
-		<class-a map-null="false" map-empty-string="true">com.feisystems.provider.domain.Provider
+		<class-a map-null="false" map-empty-string="true">gov.samhsa.pls.domain.Provider
 		</class-a>
-		<class-b map-null="false" map-empty-string="true">com.feisystems.provider.service.dto.ProviderDto
+		<class-b map-null="false" map-empty-string="true">gov.samhsa.pls.service.dto.ProviderDto
 		</class-b>
 	</mapping>
 </mappings>

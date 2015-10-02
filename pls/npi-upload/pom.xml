@@ -3,21 +3,21 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>com.feisystems.provider</groupId>
-		<artifactId>provider-lookup</artifactId>
-		<version>2.1.0-SNAPSHOT</version>
+		<groupId>gov.samhsa.pls</groupId>
+		<artifactId>pls</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 
-	<artifactId>provider-npi-upload</artifactId>
-	<name>Provider NPI Upload</name>
+	<artifactId>npi-upload</artifactId>
+	<name>NPI Upload</name>
 
 	<dependencies>
 
 		<!-- Our Own Projects: Start -->
 		<dependency>
-			<groupId>com.feisystems.provider</groupId>
-			<artifactId>provider-service</artifactId>
+			<groupId>gov.samhsa.pls</groupId>
+			<artifactId>service</artifactId>
 		</dependency>
 		<!-- Our Own Projects: End -->
 
@@ -84,7 +84,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>com.feisystems.provider.util.ProviderUploader</mainClass>
+							<mainClass>gov.samhsa.pls.util.ProviderUploader</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
