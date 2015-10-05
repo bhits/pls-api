@@ -76,6 +76,8 @@ public class ProviderServiceImpl implements ProviderService {
 		pageResultsMap.put("totalPages", pages.getTotalPages());
 		pageResultsMap.put("itemsPerPage", pages.getSize());
 		pageResultsMap.put("currentPage", pages.getNumber());
+		
+		logger.debug("totalNumberOfProviders" + pages.getTotalElements());
 
 		return pageResultsMap;
 	}
