@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,6 +25,8 @@ import gov.samhsa.pls.domain.repository.ProviderRepository;
  */
 @Service
 public class ProviderServiceImpl implements ProviderService {
+	/** The logger. */
+	final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	public ProviderServiceImpl() {
 	}
@@ -35,10 +39,12 @@ public class ProviderServiceImpl implements ProviderService {
 	@Transactional(readOnly = true)
 	@Override
 	public ProviderDto getProvider(String npi) {
+		logger.debug("getProvider npi " + npi );
 		if (npi == null) {
 			throw new IllegalArgumentException(
 					"npi is null in getProvider(String npi)");
 		}
+		
 		return providerMapper.map(providerRepository.findOne(npi));
 	}
 
@@ -70,6 +76,9 @@ public class ProviderServiceImpl implements ProviderService {
 		pageResultsMap.put("totalPages", pages.getTotalPages());
 		pageResultsMap.put("itemsPerPage", pages.getSize());
 		pageResultsMap.put("currentPage", pages.getNumber());
+		
+		logger.debug("totalNumberOfProviders" + pages.getTotalElements());
+		logger.debug("totalPages" + pages.getTotalPages());
 
 		return pageResultsMap;
 	}
