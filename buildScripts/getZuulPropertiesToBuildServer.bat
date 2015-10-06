@@ -2,7 +2,7 @@
 
 :: ********************************Please pay attention for following configurations******************
 :: NOTE: DO NOT change variable names
-:: Jenkins will set C2S_PROPS_HOME environment variable if this batch is running in a Jenkins job
+:: Jenkins will set PROPS_HOME environment variable if this batch is running in a Jenkins job
 :: SET INITIAL_GIT_BRANCH=
 :: INITIAL_PROJECT_VERSION get from jenkins
 :: SET INITIAL_PROJECT_VERSION=
@@ -12,15 +12,15 @@
 CALL :GETBRANCH_NAME
 :: Declare variables start
 :: Set constant part of Zuul URL
-SET zuul_url=https://bhitsbuild03:8443/zuul/settings
+SET zuul_url=http://bhitsbuild03:8080/zuul/settings
 :: Set working environment of each configurations
 SET environment_name=dev,qa,prod
 :: Set each property name
-SET property_name=provider-web-config
+SET property_name=pls-api-web-config
 :: Set log name for Zuul downloading information
 SET log_file_name=%branch_name%_zuul_%date:~4,2%-%date:~7,2%-%date:~10,4%
 :: Set save path for all properties downloading from Zuul
-SET properties_save_path=%C2S_PROPS_HOME%\%branch_name%\%INITIAL_PROJECT_VERSION%
+SET properties_save_path=%PROPS_HOME%\%branch_name%\%INITIAL_PROJECT_VERSION%
 
 SET log_file_save_path=%properties_save_path%\%log_file_name%
 :: Declare variables end
@@ -52,9 +52,9 @@ EXIT
   GOTO END_CASE
 
 :CREATE_ALL_SAVE_PATH
-  SET dev_properties_save_path=%C2S_PROPS_HOME%\dev\%INITIAL_PROJECT_VERSION%
-  SET qa_properties_save_path=%C2S_PROPS_HOME%\qa\%INITIAL_PROJECT_VERSION%
-  SET prod_properties_save_path=%C2S_PROPS_HOME%\prod\%INITIAL_PROJECT_VERSION%
+  SET dev_properties_save_path=%PROPS_HOME%\dev\%INITIAL_PROJECT_VERSION%
+  SET qa_properties_save_path=%PROPS_HOME%\qa\%INITIAL_PROJECT_VERSION%
+  SET prod_properties_save_path=%PROPS_HOME%\prod\%INITIAL_PROJECT_VERSION%
   
   FOR %%n IN (%dev_properties_save_path% %qa_properties_save_path% %prod_properties_save_path%) do (
 	IF NOT EXIST %%n (
@@ -89,8 +89,8 @@ EXIT
 :DOWNLOAD_All
   CALL :CREATE_ALL_SAVE_PATH
   SET url=%zuul_url%/{%environment_name%}/{%property_name%}.properties
-  SET all_log_file_save_path=%C2S_PROPS_HOME%\%log_file_name%
-  curl -k --trace-ascii %all_log_file_save_path%.log -s -o %C2S_PROPS_HOME%\#1\%INITIAL_PROJECT_VERSION%\#2.properties %url%
+  SET all_log_file_save_path=%PROPS_HOME%\%log_file_name%
+  curl -k --trace-ascii %all_log_file_save_path%.log -s -o %PROPS_HOME%\#1\%INITIAL_PROJECT_VERSION%\#2.properties %url%
   CALL :VERIFYZUUL_All
   GOTO END_CASE
   
@@ -110,9 +110,9 @@ EXIT
 :VERIFYZUUL_All
   FOR /f "tokens=3" %%f IN ('find /c /i "Send header" "%all_log_file_save_path%.log"') DO SET totalDownloads=%%f
   FOR /f "tokens=3" %%f IN ('find /c /i "HTTP/1.1 200" "%all_log_file_save_path%.log"') DO SET totalSuccess=%%f
-  (ECHO The number of download files is: %totalDownloads% && ECHO The number of successfully download is: %totalSuccess%) > %C2S_PROPS_HOME%\all_verifyZuul.log
+  (ECHO The number of download files is: %totalDownloads% && ECHO The number of successfully download is: %totalSuccess%) > %PROPS_HOME%\all_verifyZuul.log
   IF (%totalDownloads%) NEQ (%totalSuccess%) (
-      DEL /F /S /Q %C2S_PROPS_HOME%\*.properties >NUL
+      DEL /F /S /Q %PROPS_HOME%\*.properties >NUL
 	  EXIT 2
   )
   IF %totalDownloads% EQU 0 (

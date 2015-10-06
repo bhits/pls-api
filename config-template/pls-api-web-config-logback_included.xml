@@ -2,7 +2,7 @@
 
 <included>
 
-	<property name="APP_LOG_FOLDER" value="C:\\java\\C2S_LOGS\\provider-web" />
+	<property name="APP_LOG_FOLDER" value="C:\\java\\PP_LOGS\\pls-api-web" />
 	<property name="LOG_NAME" value="provider-lookup" />
 
 	<property name="com.feisystems.provider_lOGGER.level" value="warn" />
