@@ -98,7 +98,9 @@
 		</dependency>
 
 	</dependencies>
-	
+	<build>
+		<finalName>pls</finalName>
+	</build>
 	<profiles>
 		<!-- To include logger test: mvn clean install -PloggerCheck -->
 		<profile>
