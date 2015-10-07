@@ -21,7 +21,7 @@ public class PropertyPlaceholderConfig {
 
 	private static final Logger logger = LoggerFactory.getLogger(PropertyPlaceholderConfig.class);
 
-	private static final String propertyFiles = "/provider-web-config.properties";
+	private static final String propertyFiles = "/pls-api-web-config.properties";
 
 	/**
 	 * Use static method. Otherwise will get the following warning:

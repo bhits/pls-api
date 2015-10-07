@@ -2,6 +2,6 @@
 
 <configuration scan="${AUTO_SCAN}" scanPeriod="${SCAN_PERIOD}">
 
-	<include file="${C2S_PROPS}/provider-web-config-logback_included.xml"/>
+	<include file="${C2S_PROPS}/pls-api-web-config-logback_included.xml"/>
 
 </configuration>
