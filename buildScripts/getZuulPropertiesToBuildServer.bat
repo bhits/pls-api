@@ -95,8 +95,8 @@ EXIT
   GOTO END_CASE
   
 :VERIFYZUUL
-  FOR /f "tokens=3" %%f IN ('find /c /i "Send header" "%log_file_save_path%.log"') DO SET totalDownloads=%%f
-  FOR /f "tokens=3" %%f IN ('find /c /i "HTTP/1.1 200" "%log_file_save_path%.log"') DO SET totalSuccess=%%f
+  FOR /f %%f IN ('findstr /c:"Send header" "%log_file_save_path%.log"') DO SET/a totalDownloads+=1
+  FOR /f %%f IN ('findstr /c:"HTTP/1.1 200" "%log_file_save_path%.log"') DO SET/a totalSuccess+=1
   (ECHO The number of download files is: %totalDownloads% && ECHO The number of successfully download is: %totalSuccess%) > %properties_save_path%\%branch_name%_verifyZuul.log
   IF (%totalDownloads%) NEQ (%totalSuccess%) (
       CALL :REMOVE-PROPERTIES-VERIFY-FAILED
@@ -108,8 +108,8 @@ EXIT
   GOTO END_CASE
   
 :VERIFYZUUL_All
-  FOR /f "tokens=3" %%f IN ('find /c /i "Send header" "%all_log_file_save_path%.log"') DO SET totalDownloads=%%f
-  FOR /f "tokens=3" %%f IN ('find /c /i "HTTP/1.1 200" "%all_log_file_save_path%.log"') DO SET totalSuccess=%%f
+  FOR /f %%f IN ('findstr /c:"Send header" "%all_log_file_save_path%.log"') DO SET/a totalDownloads+=1
+  FOR /f %%f IN ('findstr /c:"HTTP/1.1 200" "%all_log_file_save_path%.log"') DO SET/a totalSuccess+=1
   (ECHO The number of download files is: %totalDownloads% && ECHO The number of successfully download is: %totalSuccess%) > %PROPS_HOME%\all_verifyZuul.log
   IF (%totalDownloads%) NEQ (%totalSuccess%) (
       DEL /F /S /Q %PROPS_HOME%\*.properties >NUL
