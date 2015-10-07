@@ -31,7 +31,7 @@ EXIT
 
 :UPLOAD_CONFIGS_TO_DESTINATION
   ::SET specifies_the_file=/COPYALL /B /SEC /MIR *.properties
-  SET specifies_the_file=*.properties
+  SET specifies_the_file=%target_directory%\*.properties
   SET upload_options=--trace-ascii %log_file_save_path%.log -u %plain_username%:%plain_password%
   CURL -k -T %specifies_the_file% %upload_options% %ftps_server_host%
   GOTO :EOF
