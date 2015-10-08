@@ -55,7 +55,7 @@ REM pushd %~dp0\access-control-service
 
 :: WORKSPACE  The absolute path of the workspace if running in a Jenkins job.  
 :: set the working directory of a command in windows batch file
-pushd %WORKSPACE%\provider-lookup
+pushd %WORKSPACE%\pls
 
 :: get current version of the top level pom
 :: call mvn help:evaluate -Dexpression=project.version
