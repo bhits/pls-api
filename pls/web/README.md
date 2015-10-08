@@ -11,15 +11,15 @@ Below is the structure of <b>pls</b> under <b>\pls-api\config-template</b>. All 
 #### Setting Up System Property Variables (Ignore this step if variables are already defined for another project)
 Create two new System property variables in catalina.properties under {CATALINA_HOME} or Pivotal “Servers” in STS:
 
-		PLS_KEY=9HPcr8z634
+		PP_KEY=9HPcr8z634
 
-		PLS_PROPS='\\workspaces\\pls-api\config-template
+		PP_PROPS='\\workspaces\\pls-api\config-template
 
 
 
 NOTES:
 
-	1.	Path of PLS_PROPS must point to PropertyTemplate directory of your current workspace branch.
+	1.	Path of PP_PROPS must point to PropertyTemplate directory of your current workspace branch.
 
 	2.	Restart STS to pick up newly created System Property variables.
 

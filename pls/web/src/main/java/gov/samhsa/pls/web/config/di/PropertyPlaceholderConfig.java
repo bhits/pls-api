@@ -21,7 +21,7 @@ public class PropertyPlaceholderConfig {
 
 	private static final Logger logger = LoggerFactory.getLogger(PropertyPlaceholderConfig.class);
 
-	private static final String propertyFiles = "/pls-api-web-config.properties";
+	private static final String propertyFiles = "/pls-api/config-template/pls-api-web-config.properties";
 
 	/**
 	 * Use static method. Otherwise will get the following warning:
@@ -47,9 +47,9 @@ public class PropertyPlaceholderConfig {
 		configurer.setSearchSystemEnvironment(false);
 
 		// Use Environment.getProperty instead of System.getProperty to get more flexibility to locate the property
-		final String configBasePath = env.getProperty("PLS_PROPS");
+		final String configBasePath = env.getProperty("PP_PROPS");
 
-		logger.debug("PLS_PROPS property value: " + configBasePath);
+		logger.debug("PP_PROPS property value: " + configBasePath);
 
 		configurer.setLocations(new PathMatchingResourcePatternResolver()
 				.getResources("file:" + configBasePath + propertyFiles));
@@ -60,7 +60,7 @@ public class PropertyPlaceholderConfig {
 	public static PBEConfig pbeConfig() {
 		EnvironmentStringPBEConfig config = new EnvironmentStringPBEConfig();
 		config.setAlgorithm("PBEWithMD5AndDES");
-		config.setPasswordSysPropertyName("PLS_KEY");
+		config.setPasswordSysPropertyName("PP_KEY");
 		return config;
 	}
 
