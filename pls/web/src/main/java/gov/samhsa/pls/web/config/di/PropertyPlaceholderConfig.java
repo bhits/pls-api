@@ -47,9 +47,9 @@ public class PropertyPlaceholderConfig {
 		configurer.setSearchSystemEnvironment(false);
 
 		// Use Environment.getProperty instead of System.getProperty to get more flexibility to locate the property
-		final String configBasePath = env.getProperty("C2S_PROPS");
+		final String configBasePath = env.getProperty("PLS_PROPS");
 
-		logger.debug("C2S_PROPS property value: " + configBasePath);
+		logger.debug("PLS_PROPS property value: " + configBasePath);
 
 		configurer.setLocations(new PathMatchingResourcePatternResolver()
 				.getResources("file:" + configBasePath + propertyFiles));
@@ -60,7 +60,7 @@ public class PropertyPlaceholderConfig {
 	public static PBEConfig pbeConfig() {
 		EnvironmentStringPBEConfig config = new EnvironmentStringPBEConfig();
 		config.setAlgorithm("PBEWithMD5AndDES");
-		config.setPasswordSysPropertyName("C2S_KEY");
+		config.setPasswordSysPropertyName("PLS_KEY");
 		return config;
 	}
 
