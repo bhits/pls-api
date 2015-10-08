@@ -62,8 +62,7 @@ EXIT %ERRORLEVEL%
 	  ECHO Delivery %CONFIG_NAME% Failed!
 	  EXIT %errlev%
   )
-  SET ERRORLEVEL=%errlev%
-  GOTO :EOF
+  EXIT/B %errlev%
   
 :DECRYPT_ACCOUNT_AUTHENTICATION
   FOR /F %%i IN ('"ECHO %CIPHER_USERNAME% | openssl enc -d -aes-256-cbc -a -salt -pass pass:%TRANSFER_KEY%"') DO SET plain_username=%%i
