@@ -3,9 +3,9 @@
 <included>
 
 	<property name="APP_LOG_FOLDER" value="C:\\java\\PP_LOGS\\pls-api-web" />
-	<property name="LOG_NAME" value="provider-lookup" />
+	<property name="LOG_NAME" value="pls" />
 
-	<property name="com.feisystems.provider_lOGGER.level" value="warn" />
+	<property name="gov.samhsa.pls_lOGGER.level" value="warn" />
 
 	<statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" />
 
@@ -43,7 +43,7 @@
 
 	</appender>
 
-	<logger name="com.feisystems.provider" level="${com.feisystems.provider_lOGGER.level:-warn}"></logger>
+	<logger name="gov.samhsa.pls" level="${gov.samhsa.pls_lOGGER.level:-warn}"></logger>
 
 	<root>
 		<level value="WARN" />
