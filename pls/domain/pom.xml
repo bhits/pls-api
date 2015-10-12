@@ -7,11 +7,10 @@
 		<groupId>gov.samhsa.pls</groupId>
 		<artifactId>pls</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
-		<relativePath>..</relativePath>
 	</parent>
 
-	<artifactId>domain</artifactId>
-	<name>Domain</name>
+	<artifactId>pls-domain</artifactId>
+	<name>PLS Domain</name>
 
 	<dependencies>
 		<dependency>

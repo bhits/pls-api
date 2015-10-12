@@ -6,18 +6,17 @@
 		<groupId>gov.samhsa.pls</groupId>
 		<artifactId>pls</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
-		<relativePath>..</relativePath>
 	</parent>
 
-	<artifactId>npi-upload</artifactId>
-	<name>NPI Upload</name>
+	<artifactId>pls-npi-upload</artifactId>
+	<name>PLS NPI Upload</name>
 
 	<dependencies>
 
 		<!-- Our Own Projects: Start -->
 		<dependency>
 			<groupId>gov.samhsa.pls</groupId>
-			<artifactId>service</artifactId>
+			<artifactId>pls-service</artifactId>
 		</dependency>
 		<!-- Our Own Projects: End -->
 
