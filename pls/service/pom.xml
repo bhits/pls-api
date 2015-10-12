@@ -6,17 +6,16 @@
 		<groupId>gov.samhsa.pls</groupId>
 		<artifactId>pls</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
-		<relativePath>..</relativePath>
 	</parent>
 
-	<artifactId>service</artifactId>
-	<name>Service</name>
+	<artifactId>pls-service</artifactId>
+	<name>PLS Service</name>
 
 	<dependencies>
 		<!-- Our Own Projects: Start -->
 		<dependency>
 			<groupId>gov.samhsa.pls</groupId>
-			<artifactId>domain</artifactId>
+			<artifactId>pls-domain</artifactId>
 		</dependency>
 		<!-- Our Own Projects: End -->
 

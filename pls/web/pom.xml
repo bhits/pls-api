@@ -6,18 +6,17 @@
 		<groupId>gov.samhsa.pls</groupId>
 		<artifactId>pls</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
-		<relativePath>..</relativePath>
 	</parent>
 
-	<artifactId>web</artifactId>
+	<artifactId>pls-web</artifactId>
 	<packaging>war</packaging>
-	<name>Web</name>
+	<name>PLS Web</name>
 
 	<dependencies>
 		<!-- Our Own Projects: Start -->
 		<dependency>
 			<groupId>gov.samhsa.pls</groupId>
-			<artifactId>service</artifactId>
+			<artifactId>pls-service</artifactId>
 		</dependency>
 		<!-- Our Own Projects: End -->
 
@@ -98,7 +97,9 @@
 		</dependency>
 
 	</dependencies>
+
 	<build>
 		<finalName>pls</finalName>
 	</build>
+
 </project>
