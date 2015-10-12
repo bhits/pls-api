@@ -11,6 +11,7 @@
 :: SET JOB_NAME=
 
 :: SET FTPS_SERVER_HOST=
+:: SET FTPS_SERVER_DESTINATION
 :: SET TRANSFER_KEY=
 :: SET CIPHER_USERNAME=
 :: SET CIPHER_PASSWORD=
@@ -72,9 +73,9 @@ EXIT %ERRORLEVEL%
 :UPLOAD_CONFIGS_TO_DESTINATION
   CALL :DELAY_EXECUTION_IN_MILLISECONDS
   ::SET specifies_the_file=/COPYALL /B /SEC /MIR *.properties
-  SET specifies_the_file=%destination%\%CONFIG_NAME%.properties
-  SET upload_options=--trace-ascii %log_file_save_path%.log -u %plain_username%:%plain_password%
-  CURL -k -T %specifies_the_file% %upload_options% %FTPS_SERVER_HOST%
+  SET specifies_the_file=-T %destination%\%CONFIG_NAME%.properties
+  SET upload_options=-k --ftp-create-dirs --trace-ascii %log_file_save_path%.log -u %plain_username%:%plain_password%
+  CURL %specifies_the_file% %upload_options% %FTPS_SERVER_HOST%/%FTPS_SERVER_DESTINATION%/
   GOTO :EOF
   
 :CHECK_UPLOADING_STATUS
