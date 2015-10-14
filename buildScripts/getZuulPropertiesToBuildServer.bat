@@ -17,7 +17,7 @@ SET zuul_url=http://bhitsbuild03:8080/zuul/settings
 :: Set working environment of each configurations
 SET environment_name=dev,qa,prod
 :: Set each property name
-SET property_name=pls-api-web-config
+SET property_name=pls-config
 :: Set log name for Zuul downloading information
 SET log_file_name=%branch_name%_pls_zuul_%date:~4,2%-%date:~7,2%-%date:~10,4%
 :: Set save path for properties downloaded from Zuul

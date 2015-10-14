@@ -2,7 +2,7 @@
 
 <included>
 
-	<property name="APP_LOG_FOLDER" value="C:\\java\\PP_LOGS\\pls-api-web" />
+	<property name="APP_LOG_FOLDER" value="C:\\java\\PP_LOGS\\pls" />
 	<property name="LOG_NAME" value="pls" />
 
 	<property name="gov.samhsa.pls_lOGGER.level" value="warn" />
