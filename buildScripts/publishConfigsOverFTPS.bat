@@ -5,6 +5,7 @@
 :: PROPS_HOME and CONFIGS_DELIVERY_HOME get from environment variable
 :: Following value of variables will get from jenkins
 :: Jenkins will set variables if this batch is running in a Jenkins job
+:: SET INITIAL_APP_NAME=
 :: SET INITIAL_GIT_BRANCH=
 :: SET INITIAL_PROJECT_VERSION=
 :: SET CONFIG_NAME=
@@ -22,12 +23,12 @@ CALL :GETBRANCH_NAME
 
 :: Declare variables start
 :: Set configuration path for target config
-SET target_config_path=%PROPS_HOME%\%branch_name%\%INITIAL_PROJECT_VERSION%
+SET target_config_path=%PROPS_HOME%\%INITIAL_APP_NAME%\%branch_name%\%INITIAL_PROJECT_VERSION%
 :: Set configuration path for destination
 SET destination=%CONFIGS_DELIVERY_HOME%\%JOB_NAME%
 
 :: Set log name for configurations uploading information
-SET log_file_name=%date:~4,2%-%date:~7,2%-%date:~10,4%
+SET log_file_name=pls_ftps_%date:~4,2%-%date:~7,2%-%date:~10,4%
 SET log_file_save_path=%destination%\%log_file_name%
 :: Declare variables end
 
@@ -56,7 +57,7 @@ EXIT %ERRORLEVEL%
 :COPY_CONFIG_TO_DESTINATION
   ::SET specifies_the_file=/COPYALL /B /SEC /MIR *.properties
   SET specifies_the_file=/MIR /XX %CONFIG_NAME%.properties
-  SET copy_options=/R:3 /W:5 /LOG:%destination%\RoboLog.log /NS /NC /NDL
+  SET copy_options=/R:3 /W:5 /LOG:%destination%\pls_movingStatus.log /NS /NC /NDL
   ROBOCOPY %target_config_path% %destination% %specifies_the_file% %copy_options% >NUL
   SET/A errlev="%ERRORLEVEL% & 24"
   IF %errlev% NEQ 0 (
@@ -80,7 +81,7 @@ EXIT %ERRORLEVEL%
   
 :CHECK_UPLOADING_STATUS
   FOR /f %%f IN ('findstr /c:"We are completely uploaded and fine" "%log_file_save_path%.log"') DO SET/a totalSuccess+=1
-  ECHO The number of successfully uploading is: %totalSuccess% > %destination%\uploadingStatus_%log_file_name%.log
-  ECHO CURL ERROR CODE: %ERRORLEVEL% >>%destination%\uploadingStatus_%log_file_name%.log
+  ECHO The number of successfully uploading is: %totalSuccess% > %destination%\pls_uploadingStatus_%log_file_name%.log
+  ECHO CURL ERROR CODE: %ERRORLEVEL% >>%destination%\pls_uploadingStatus_%log_file_name%.log
   GOTO :EOF
 :: Declare methods end
