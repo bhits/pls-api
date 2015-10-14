@@ -3,51 +3,77 @@ package gov.samhsa.pls.web.config.di;
 import gov.samhsa.pls.web.controller.ControllerBasePackageMarker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 /**
  * WebMvcConfigurer implementation defines callback methods to customize the Java-based configuration for Spring MVC enabled via @EnableWebMvc.
- *
  */
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackageClasses = {ControllerBasePackageMarker.class})
 public class MvcConfig extends WebMvcConfigurerAdapter {
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Override
-	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**");
-	}
+    @Value("${corsAllowedOrigins}")
+    private String corsAllowedOrigins;
 
-	@Override
-	public void configureDefaultServletHandling(
-			DefaultServletHandlerConfigurer configurer) {
-		logger.debug("configureDefaultServletHandling is called");
+    @Value("${corsAllowedMethods}")
+    private String corsAllowedMethods;
 
-		configurer.enable();
-	}
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
 
-	@Override
-	public void addViewControllers(ViewControllerRegistry registry) {
-		logger.debug("addViewControllers is called");
+        CorsRegistration reg = registry.addMapping("/providers/**");
 
-		registry.addViewController("/").setViewName("index");
-		registry.addViewController("/home").setViewName("index");
-		registry.addViewController("/index").setViewName("index");
-	}
+        getCommaSeparatedValuesAsOptionalStringArray(corsAllowedMethods)
+                .ifPresent(reg::allowedMethods);
+        getCommaSeparatedValuesAsOptionalStringArray(corsAllowedOrigins)
+                .ifPresent(reg::allowedOrigins);
+    }
 
-	@Bean
-	public InternalResourceViewResolver viewResolver() {
-		logger.debug("Setting up viewResolver bean");
+    @Override
+    public void configureDefaultServletHandling(
+            DefaultServletHandlerConfigurer configurer) {
+        logger.debug("configureDefaultServletHandling is called");
 
-		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-		viewResolver.setPrefix("/WEB-INF/jsp/");
-		viewResolver.setSuffix(".jsp");
-		return viewResolver;
-	}
+        configurer.enable();
+    }
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        logger.debug("addViewControllers is called");
+
+        registry.addViewController("/").setViewName("index");
+        registry.addViewController("/home").setViewName("index");
+        registry.addViewController("/index").setViewName("index");
+    }
+
+    @Bean
+    public InternalResourceViewResolver viewResolver() {
+        logger.debug("Setting up viewResolver bean");
+
+        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+        viewResolver.setPrefix("/WEB-INF/jsp/");
+        viewResolver.setSuffix(".jsp");
+        return viewResolver;
+    }
+
+    private static Optional<String[]> getCommaSeparatedValuesAsOptionalStringArray(String commaSeperatedValues) {
+        return Optional
+                    .of(Arrays
+                            .stream(commaSeperatedValues.split(","))
+                            .map(String::trim)
+                            .filter(StringUtils::hasText)
+                            .toArray(String[]::new))
+                    .filter(array -> array.length > 0);
+    }
 }
