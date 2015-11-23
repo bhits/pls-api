@@ -58,6 +58,7 @@
 *.war binary
 *.ear binary
 *.ico binary
+*.ogg binary
 *.MYD binary
 *.MYI binary
 *.exe binary
