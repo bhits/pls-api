@@ -1,7 +1,5 @@
 package gov.samhsa.pls.web.config.di;
 
-import java.io.IOException;
-
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.EnvironmentStringPBEConfig;
@@ -15,6 +13,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.util.Assert;
+
+import java.io.IOException;
 
 @Configuration
 public class PropertyPlaceholderConfig {
@@ -47,9 +47,9 @@ public class PropertyPlaceholderConfig {
 		configurer.setSearchSystemEnvironment(false);
 
 		// Use Environment.getProperty instead of System.getProperty to get more flexibility to locate the property
-		final String configBasePath = env.getProperty("PP_PROPS");
+		final String configBasePath = env.getProperty("MHC_PROPS");
 
-		logger.debug("PP_PROPS property value: " + configBasePath);
+		logger.debug("MHC_PROPS property value: " + configBasePath);
 
 		configurer.setLocations(new PathMatchingResourcePatternResolver()
 				.getResources("file:" + configBasePath + propertyFiles));
@@ -60,7 +60,7 @@ public class PropertyPlaceholderConfig {
 	public static PBEConfig pbeConfig() {
 		EnvironmentStringPBEConfig config = new EnvironmentStringPBEConfig();
 		config.setAlgorithm("PBEWithMD5AndDES");
-		config.setPasswordSysPropertyName("PP_KEY");
+		config.setPasswordSysPropertyName("MHC_KEY");
 		return config;
 	}
 
