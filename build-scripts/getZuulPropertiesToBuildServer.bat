@@ -13,7 +13,7 @@
 CALL :GETBRANCH_NAME
 :: Declare variables start
 :: Set constant part of Zuul URL
-SET zuul_url=http://bhitsbuild03:8080/zuul/settings
+SET zuul_url=https://bhitsbuild03:8443/zuul/settings
 :: Set working environment of each configurations
 SET environment_name=dev,qa,prod
 :: Set each property name
