@@ -57,6 +57,7 @@
 		<poi-ooxml.version>3.9</poi-ooxml.version>
 		<el-api.version>2.2</el-api.version>
 		<jasypt.version>1.9.2</jasypt.version>
+		<docker.maven.version>0.4.3</docker.maven.version>
 	</properties>
 
 	<scm>
