@@ -4,5 +4,6 @@ ENV AUTO_SCAN true
 ENV SCAN_PERIOD 1 seconds
 ENV MHC_PROPS /java/MHC_PROPS
 ENV MHC_KEY 9HPcr8z634
-ADD pls.war /usr/local/tomcat/webapps/
+ARG finalName
+ADD $finalName /usr/local/tomcat/webapps/
 
