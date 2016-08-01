@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>gov.samhsa.pls</groupId>
+		<groupId>gov.samhsa.c2s</groupId>
 		<artifactId>pls</artifactId>
 		<version>1.6.0-SNAPSHOT</version>
 	</parent>
