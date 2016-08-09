@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>gov.samhsa.c2s</groupId>
 		<artifactId>pls</artifactId>
-		<version>1.6.0-SNAPSHOT</version>
+		<version>1.7.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>pls-npi-upload</artifactId>
