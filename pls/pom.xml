@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>gov.samhsa.c2s</groupId>
 	<artifactId>pls</artifactId>
-	<version>1.8.0-SNAPSHOT</version>
+	<version>1.9.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Provider Lookup Service</name>
 

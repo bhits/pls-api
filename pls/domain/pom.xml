@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>gov.samhsa.c2s</groupId>
 		<artifactId>pls</artifactId>
-		<version>1.8.0-SNAPSHOT</version>
+		<version>1.9.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>pls-domain</artifactId>
