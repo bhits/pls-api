@@ -44,7 +44,6 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
     public void configureDefaultServletHandling(
             DefaultServletHandlerConfigurer configurer) {
         logger.debug("configureDefaultServletHandling is called");
-
         configurer.enable();
     }
 
@@ -67,13 +66,13 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         return viewResolver;
     }
 
-    private static Optional<String[]> getCommaSeparatedValuesAsOptionalStringArray(String commaSeperatedValues) {
+    private static Optional<String[]> getCommaSeparatedValuesAsOptionalStringArray(String commaSeparatedValues) {
         return Optional
-                    .of(Arrays
-                            .stream(commaSeperatedValues.split(","))
-                            .map(String::trim)
-                            .filter(StringUtils::hasText)
-                            .toArray(String[]::new))
-                    .filter(array -> array.length > 0);
+                .of(Arrays
+                        .stream(commaSeparatedValues.split(","))
+                        .map(String::trim)
+                        .filter(StringUtils::hasText)
+                        .toArray(String[]::new))
+                .filter(array -> array.length > 0);
     }
 }

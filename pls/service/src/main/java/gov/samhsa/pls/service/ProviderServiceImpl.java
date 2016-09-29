@@ -1,9 +1,9 @@
 package gov.samhsa.pls.service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import gov.samhsa.pls.domain.Provider;
+import gov.samhsa.pls.domain.repository.ProviderRepository;
+import gov.samhsa.pls.service.dto.ProviderDto;
+import gov.samhsa.pls.service.mapper.ProviderMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,240 +13,240 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import gov.samhsa.pls.service.dto.ProviderDto;
-import gov.samhsa.pls.service.mapper.ProviderMapper;
-import gov.samhsa.pls.domain.Provider;
-import gov.samhsa.pls.domain.repository.ProviderRepository;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * SQL implementation of {@code gov.samhsa.pls.domain.service.ProviderService}
  *
- * @see gov.samhsa.pls.domain.service.ProviderService
+ * @see gov.samhsa.pls.service.ProviderService
  */
 @Service
 public class ProviderServiceImpl implements ProviderService {
-	/** The logger. */
-	final Logger logger = LoggerFactory.getLogger(this.getClass());
+    /**
+     * The logger.
+     */
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	public ProviderServiceImpl() {
-	}
+    @Autowired
+    private ProviderRepository providerRepository;
+    @Autowired
+    private ProviderMapper providerMapper;
 
-	@Autowired
-	private ProviderRepository providerRepository;
-	@Autowired
-	private ProviderMapper providerMapper;
+    public ProviderServiceImpl() {
+    }
 
-	@Transactional(readOnly = true)
-	@Override
-	public ProviderDto getProvider(String npi) {
-		logger.debug("getProvider npi " + npi );
-		if (npi == null) {
-			throw new IllegalArgumentException(
-					"npi is null in getProvider(String npi)");
-		}
-		
-		return providerMapper.map(providerRepository.findOne(npi));
-	}
+    @Transactional(readOnly = true)
+    @Override
+    public ProviderDto getProvider(String npi) {
+        logger.debug("getProvider npi " + npi);
+        if (npi == null) {
+            throw new IllegalArgumentException(
+                    "npi is null in getProvider(String npi)");
+        }
 
-	@Override
-	public Map<String, Object> getByGenderCodeAndPostalCodeAndSpecialityAndTelephoneNumberAndLastNameAndFirstNameAndEntityTypeAndProviderOrganizationName(
-			String genderCode, String postalCode, String taxonomy,
-			String phone, String lastName, String firstName, String entityType,
-			String providerOrganizationName, String pageNumber) {
-		PageRequest page = new PageRequest(Integer.parseInt(pageNumber), 10,
-				Direction.ASC, "providerLastName");
+        return providerMapper.map(providerRepository.findOne(npi));
+    }
 
-		Page<Provider> pages = providerRepository
-				.findAllByProviderGenderCodeLikeAndProviderBusinessPracticeLocationAddressPostalCodeLikeAndTaxonomyLikeAndProviderBusinessPracticeLocationAddressTelephoneNumberLikeAndProviderLastNameLikeAndProviderFirstNameLikeAndEntityTypeLikeAndProviderOrganizationNameLike(
-						calculateGenderCode(genderCode),
-						calculateZipcode(postalCode),
-						calculateSearchString(taxonomy),
-						calculateSearchString(phone),
-						searchPartialString(firstName),
-						calculateSearchString(entityType),
-						searchPartialString(lastName),
-						searchPartialString(providerOrganizationName), page);
+    @Override
+    public Map<String, Object> getByGenderCodeAndPostalCodeAndSpecialityAndTelephoneNumberAndLastNameAndFirstNameAndEntityTypeAndProviderOrganizationName(
+            String genderCode, String postalCode, String taxonomy,
+            String phone, String lastName, String firstName, String entityType,
+            String providerOrganizationName, String pageNumber) {
+        PageRequest page = new PageRequest(Integer.parseInt(pageNumber), 10,
+                Direction.ASC, "providerLastName");
 
-		List<ProviderDto> results = providerMapper.mapToProviderDtoList(pages
-				.getContent());
+        Page<Provider> pages = providerRepository
+                .findAllByProviderGenderCodeLikeAndProviderBusinessPracticeLocationAddressPostalCodeLikeAndTaxonomyLikeAndProviderBusinessPracticeLocationAddressTelephoneNumberLikeAndProviderLastNameLikeAndProviderFirstNameLikeAndEntityTypeLikeAndProviderOrganizationNameLike(
+                        calculateGenderCode(genderCode),
+                        calculateZipcode(postalCode),
+                        calculateSearchString(taxonomy),
+                        calculateSearchString(phone),
+                        searchPartialString(firstName),
+                        calculateSearchString(entityType),
+                        searchPartialString(lastName),
+                        searchPartialString(providerOrganizationName), page);
 
-		Map<String, Object> pageResultsMap = new HashMap<String, Object>();
-		pageResultsMap.put("results", results);
-		pageResultsMap.put("totalNumberOfProviders", pages.getTotalElements());
-		pageResultsMap.put("totalPages", pages.getTotalPages());
-		pageResultsMap.put("itemsPerPage", pages.getSize());
-		pageResultsMap.put("currentPage", pages.getNumber());
-		
-		logger.debug("totalNumberOfProviders" + pages.getTotalElements());
-		logger.debug("totalPages" + pages.getTotalPages());
+        List<ProviderDto> results = providerMapper.mapToProviderDtoList(pages
+                .getContent());
 
-		return pageResultsMap;
-	}
+        Map<String, Object> pageResultsMap = new HashMap<>();
+        pageResultsMap.put("results", results);
+        pageResultsMap.put("totalNumberOfProviders", pages.getTotalElements());
+        pageResultsMap.put("totalPages", pages.getTotalPages());
+        pageResultsMap.put("itemsPerPage", pages.getSize());
+        pageResultsMap.put("currentPage", pages.getNumber());
 
-	@Override
-	public Map<String, Object> getByGenderCodeAndPostalCodeAndSpecialityAndTelephoneNumberAndLastNameOrProviderOrganizationNameAndFirstNameAndEntityType(
-			String genderCode, String postalCode, String taxonomy,
-			String phone, String lastNameOrFacilityName, String firstName,
-			String entityType, String pageNumber) {
-		PageRequest page = new PageRequest(Integer.parseInt(pageNumber), 10,
-				Direction.ASC, "providerLastName");
+        logger.debug("totalNumberOfProviders" + pages.getTotalElements());
+        logger.debug("totalPages" + pages.getTotalPages());
 
-		Page<Provider> pages = providerRepository
-				.findAllByProviderGenderCodeLikeAndProviderBusinessPracticeLocationAddressPostalCodeLikeAndTaxonomyLikeAndProviderBusinessPracticeLocationAddressTelephoneNumberLikeAndProviderLastNameLikeAndProviderFirstNameLikeAndEntityTypeLikeAndProviderLastNameLikeOrProviderOrganizationNameLike(
-						calculateGenderCode(genderCode),
-						calculateZipcode(postalCode),
-						calculateSearchString(taxonomy),
-						calculateSearchString(phone),
-						searchPartialString(firstName),
-						calculateSearchString(entityType),
-						searchPartialString(lastNameOrFacilityName), page);
+        return pageResultsMap;
+    }
 
-		List<ProviderDto> results = providerMapper.mapToProviderDtoList(pages
-				.getContent());
+    @Override
+    public Map<String, Object> getByGenderCodeAndPostalCodeAndSpecialityAndTelephoneNumberAndLastNameOrProviderOrganizationNameAndFirstNameAndEntityType(
+            String genderCode, String postalCode, String taxonomy,
+            String phone, String lastNameOrFacilityName, String firstName,
+            String entityType, String pageNumber) {
+        PageRequest page = new PageRequest(Integer.parseInt(pageNumber), 10,
+                Direction.ASC, "providerLastName");
 
-		Map<String, Object> pageResultsMap = new HashMap<String, Object>();
-		pageResultsMap.put("results", results);
-		pageResultsMap.put("totalNumberOfProviders", pages.getTotalElements());
-		pageResultsMap.put("totalPages", pages.getTotalPages());
-		pageResultsMap.put("itemsPerPage", pages.getSize());
-		pageResultsMap.put("currentPage", pages.getNumber());
+        Page<Provider> pages = providerRepository
+                .findAllByProviderGenderCodeLikeAndProviderBusinessPracticeLocationAddressPostalCodeLikeAndTaxonomyLikeAndProviderBusinessPracticeLocationAddressTelephoneNumberLikeAndProviderLastNameLikeAndProviderFirstNameLikeAndEntityTypeLikeAndProviderLastNameLikeOrProviderOrganizationNameLike(
+                        calculateGenderCode(genderCode),
+                        calculateZipcode(postalCode),
+                        calculateSearchString(taxonomy),
+                        calculateSearchString(phone),
+                        searchPartialString(firstName),
+                        calculateSearchString(entityType),
+                        searchPartialString(lastNameOrFacilityName), page);
 
-		return pageResultsMap;
-	}
+        List<ProviderDto> results = providerMapper.mapToProviderDtoList(pages
+                .getContent());
 
-	@Override
-	public Map<String, Object> getByGenderCodeAndUSStateAbbreviationAndCityAndSpecialityAndTelephoneNumberAndLastNameAndFirstNameAndEntityTypeAndProviderOrganizationName(
-			String genderCode, String usStateAbbreviation, String city,
-			String taxonomy, String phone, String lastName, String firstName,
-			String entityType, String providerOrganizationName,
-			String pageNumber) {
-		PageRequest page = new PageRequest(Integer.parseInt(pageNumber), 10,
-				Direction.ASC, "providerLastName");
+        Map<String, Object> pageResultsMap = new HashMap<>();
+        pageResultsMap.put("results", results);
+        pageResultsMap.put("totalNumberOfProviders", pages.getTotalElements());
+        pageResultsMap.put("totalPages", pages.getTotalPages());
+        pageResultsMap.put("itemsPerPage", pages.getSize());
+        pageResultsMap.put("currentPage", pages.getNumber());
 
-		Page<Provider> pages = providerRepository
-				.findAllByProviderGenderCodeLikeAndProviderBusinessPracticeLocationAddressStateNameAndProviderBusinessPracticeLocationAddressCityNameLikeAndTaxonomyLikeAndProviderBusinessPracticeLocationAddressTelephoneNumberLikeAndProviderLastNameLikeAndProviderFirstNameLikeAndEntityTypeLikeAndProviderOrganizationNameLike(
-						calculateGenderCode(genderCode), usStateAbbreviation,
-						calculateCity(city), calculateSearchString(taxonomy),
-						calculateSearchString(phone),
-						searchPartialString(firstName),
-						calculateSearchString(entityType),
-						searchPartialString(lastName),
-						searchPartialString(providerOrganizationName), page);
+        return pageResultsMap;
+    }
 
-		List<ProviderDto> results = providerMapper.mapToProviderDtoList(pages
-				.getContent());
+    @Override
+    public Map<String, Object> getByGenderCodeAndUSStateAbbreviationAndCityAndSpecialityAndTelephoneNumberAndLastNameAndFirstNameAndEntityTypeAndProviderOrganizationName(
+            String genderCode, String usStateAbbreviation, String city,
+            String taxonomy, String phone, String lastName, String firstName,
+            String entityType, String providerOrganizationName,
+            String pageNumber) {
+        PageRequest page = new PageRequest(Integer.parseInt(pageNumber), 10,
+                Direction.ASC, "providerLastName");
 
-		Map<String, Object> pageResultsMap = new HashMap<String, Object>();
-		pageResultsMap.put("results", results);
-		pageResultsMap.put("totalNumberOfProviders", pages.getTotalElements());
-		pageResultsMap.put("totalPages", pages.getTotalPages());
-		pageResultsMap.put("itemsPerPage", pages.getSize());
-		pageResultsMap.put("currentPage", pages.getNumber());
+        Page<Provider> pages = providerRepository
+                .findAllByProviderGenderCodeLikeAndProviderBusinessPracticeLocationAddressStateNameAndProviderBusinessPracticeLocationAddressCityNameLikeAndTaxonomyLikeAndProviderBusinessPracticeLocationAddressTelephoneNumberLikeAndProviderLastNameLikeAndProviderFirstNameLikeAndEntityTypeLikeAndProviderOrganizationNameLike(
+                        calculateGenderCode(genderCode), usStateAbbreviation,
+                        calculateCity(city), calculateSearchString(taxonomy),
+                        calculateSearchString(phone),
+                        searchPartialString(firstName),
+                        calculateSearchString(entityType),
+                        searchPartialString(lastName),
+                        searchPartialString(providerOrganizationName), page);
 
-		return pageResultsMap;
-	}
+        List<ProviderDto> results = providerMapper.mapToProviderDtoList(pages
+                .getContent());
 
-	@Override
-	public Map<String, Object> getByGenderCodeAndUSStateAbbreviationAndCityAndSpecialityAndTelephoneNumberAndLastNameOrProviderOrganizationNameAndFirstNameAndEntityType(
-			String genderCode, String usStateAbbreviation, String city,
-			String taxonomy, String phone, String lastNameOrFacilityName,
-			String firstName, String entityType, String pageNumber) {
-		PageRequest page = new PageRequest(Integer.parseInt(pageNumber), 10,
-				Direction.ASC, "providerLastName");
+        Map<String, Object> pageResultsMap = new HashMap<>();
+        pageResultsMap.put("results", results);
+        pageResultsMap.put("totalNumberOfProviders", pages.getTotalElements());
+        pageResultsMap.put("totalPages", pages.getTotalPages());
+        pageResultsMap.put("itemsPerPage", pages.getSize());
+        pageResultsMap.put("currentPage", pages.getNumber());
 
-		Page<Provider> pages = providerRepository
-				.findAllByProviderGenderCodeLikeAndProviderBusinessPracticeLocationAddressStateNameAndProviderBusinessPracticeLocationAddressCityNameLikeAndTaxonomyLikeAndProviderBusinessPracticeLocationAddressTelephoneNumberLikeAndProviderLastNameLikeAndProviderFirstNameLikeAndEntityTypeLikeAndProviderLastNameLikeOrProviderOrganizationNameLike(
-						calculateGenderCode(genderCode), usStateAbbreviation,
-						calculateCity(city), calculateSearchString(taxonomy),
-						calculateSearchString(phone),
-						searchPartialString(firstName),
-						calculateSearchString(entityType),
-						searchPartialString(lastNameOrFacilityName), page);
+        return pageResultsMap;
+    }
 
-		List<ProviderDto> results = providerMapper.mapToProviderDtoList(pages
-				.getContent());
+    @Override
+    public Map<String, Object> getByGenderCodeAndUSStateAbbreviationAndCityAndSpecialityAndTelephoneNumberAndLastNameOrProviderOrganizationNameAndFirstNameAndEntityType(
+            String genderCode, String usStateAbbreviation, String city,
+            String taxonomy, String phone, String lastNameOrFacilityName,
+            String firstName, String entityType, String pageNumber) {
+        PageRequest page = new PageRequest(Integer.parseInt(pageNumber), 10,
+                Direction.ASC, "providerLastName");
 
-		Map<String, Object> pageResultsMap = new HashMap<String, Object>();
-		pageResultsMap.put("results", results);
-		pageResultsMap.put("totalNumberOfProviders", pages.getTotalElements());
-		pageResultsMap.put("totalPages", pages.getTotalPages());
-		pageResultsMap.put("itemsPerPage", pages.getSize());
-		pageResultsMap.put("currentPage", pages.getNumber());
+        Page<Provider> pages = providerRepository
+                .findAllByProviderGenderCodeLikeAndProviderBusinessPracticeLocationAddressStateNameAndProviderBusinessPracticeLocationAddressCityNameLikeAndTaxonomyLikeAndProviderBusinessPracticeLocationAddressTelephoneNumberLikeAndProviderLastNameLikeAndProviderFirstNameLikeAndEntityTypeLikeAndProviderLastNameLikeOrProviderOrganizationNameLike(
+                        calculateGenderCode(genderCode), usStateAbbreviation,
+                        calculateCity(city), calculateSearchString(taxonomy),
+                        calculateSearchString(phone),
+                        searchPartialString(firstName),
+                        calculateSearchString(entityType),
+                        searchPartialString(lastNameOrFacilityName), page);
 
-		return pageResultsMap;
-	}
+        List<ProviderDto> results = providerMapper.mapToProviderDtoList(pages
+                .getContent());
 
-	private String calculateZipcode(String original) {
-		String result = null;
-		if (original != null) {
-			if (SEARCH_STRING.equals(original)) {
-				return original;
-			}
-			result = original.replaceAll("-", "");
-			if (result.length() < 9 && result.length() > 2) {
-				result = original + SEARCH_STRING;
-			}
-		}
-		return result;
-	}
+        Map<String, Object> pageResultsMap = new HashMap<>();
+        pageResultsMap.put("results", results);
+        pageResultsMap.put("totalNumberOfProviders", pages.getTotalElements());
+        pageResultsMap.put("totalPages", pages.getTotalPages());
+        pageResultsMap.put("itemsPerPage", pages.getSize());
+        pageResultsMap.put("currentPage", pages.getNumber());
 
-	private String calculateSearchString(String original) {
-		String result = null;
-		if (original != null) {
-			String unmasked = original.replaceAll("_", " ");
-			if (SEARCH_STRING.equals(unmasked)) {
-				return unmasked;
-			} else {
-				if (unmasked.length() > 2) {
-					result = unmasked + SEARCH_STRING;
-				}
-			}
-		}
-		return result;
-	}
+        return pageResultsMap;
+    }
 
-	private String calculateGenderCode(String gender) {
-		if (gender == null
-				|| !(gender.equalsIgnoreCase("m")
-						|| gender.equalsIgnoreCase("f")
-						|| gender.equalsIgnoreCase("male")
-						|| gender.equalsIgnoreCase("female") || gender
-							.equals("%"))) {
-			throw new IllegalArgumentException(
-					"Gender is null or is incorrect "
-							+ "format.  Please see  "
-							+ "gov.samhsa.pls.domain.service.ProviderService specifications.");
-		}
+    private String calculateZipcode(String original) {
+        String result = null;
+        if (original != null) {
+            if (SEARCH_STRING.equals(original)) {
+                return original;
+            }
+            result = original.replaceAll("-", "");
+            if (result.length() < 9 && result.length() > 2) {
+                result = original + SEARCH_STRING;
+            }
+        }
+        return result;
+    }
 
-		if (gender.length() > 1) {
-			return gender.substring(0, 1).toLowerCase();
-		}
+    private String calculateSearchString(String original) {
+        String result = null;
+        if (original != null) {
+            String unmasked = original.replaceAll("_", " ");
+            if (SEARCH_STRING.equals(unmasked)) {
+                return unmasked;
+            } else {
+                if (unmasked.length() > 2) {
+                    result = unmasked + SEARCH_STRING;
+                }
+            }
+        }
+        return result;
+    }
 
-		return gender.toLowerCase();
-	}
+    private String calculateGenderCode(String gender) {
+        if (gender == null
+                || !(gender.equalsIgnoreCase("m")
+                || gender.equalsIgnoreCase("f")
+                || gender.equalsIgnoreCase("male")
+                || gender.equalsIgnoreCase("female") || gender
+                .equals("%"))) {
+            throw new IllegalArgumentException(
+                    "Gender is null or is incorrect "
+                            + "format.  Please see  "
+                            + "gov.samhsa.pls.service.ProviderService specifications.");
+        }
 
-	private String calculateCity(String original) {
-		String result = null;
-		if (original != null) {
-			if (SEARCH_STRING.equals(original)) {
-				return original;
-			}
-			result = original.replaceAll("_", " ");
-		}
+        if (gender.length() > 1) {
+            return gender.substring(0, 1).toLowerCase();
+        }
 
-		return searchPartialString(result);
-	}
+        return gender.toLowerCase();
+    }
 
-	/**
-	 * Allows partial searches for provider search. Used by jpa repository
-	 * findByFIELD_NAMELike method Ex: "Balt" returns "Baltimore"
-	 *
-	 * @param searchField
-	 *            the search field
-	 * @return the string
-	 */
-	private String searchPartialString(String searchField) {
-		return new StringBuilder().append(SEARCH_STRING).append(searchField)
-				.append(SEARCH_STRING).toString();
-	}
+    private String calculateCity(String original) {
+        String result = null;
+        if (original != null) {
+            if (SEARCH_STRING.equals(original)) {
+                return original;
+            }
+            result = original.replaceAll("_", " ");
+        }
+
+        return searchPartialString(result);
+    }
+
+    /**
+     * Allows partial searches for provider search. Used by jpa repository
+     * findByFIELD_NAMELike method Ex: "Balt" returns "Baltimore"
+     *
+     * @param searchField the search field
+     * @return the string
+     */
+    private String searchPartialString(String searchField) {
+        return new StringBuilder().append(SEARCH_STRING).append(searchField)
+                .append(SEARCH_STRING).toString();
+    }
 }

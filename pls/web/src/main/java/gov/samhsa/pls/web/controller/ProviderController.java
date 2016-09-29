@@ -39,8 +39,7 @@ import gov.samhsa.pls.web.util.URLArgument.URLHelper;
  * provider with unique NPI.
  * </ul>
  *
- * @see gov.samhsa.pls.domain.web.util.URLArgument
- *      gov.samhsa.pls.domain.web.util.URLArgument
+ * @see gov.samhsa.pls.web.util.URLArgument
  * @see <a href="http://www.springsource.org/">Spring Framework</a>
  *
  */
@@ -50,13 +49,9 @@ public class ProviderController {
 	@Autowired
 	private ProviderService providerService;
 
-	/** The logger. */
-	final Logger logger = LoggerFactory.getLogger(this.getClass());
-
 	@RequestMapping(value = "/index}}", method = RequestMethod.GET)
 	public String getProvider() {
 		return "index";
-
 	}
 
 	@RequestMapping(value = "/providers/pageNumber/{pageNumber}/{npi}", method = RequestMethod.GET)
@@ -64,7 +59,6 @@ public class ProviderController {
 	public @ResponseBody ProviderDto findProviderByNPI(
 			@PathVariable("pageNumber") String pageNumber,
 			@PathVariable("npi") String npi) {
-		// FIXME (AO)
 		return providerService.getProvider(npi);
 	}
 
@@ -267,7 +261,6 @@ public class ProviderController {
 			URLArgument argEnum = URLArgument.getURLArgumentInstance(argName);
 			argEnum.fillArgument(args, methodType, argValue);
 		}
-
 	}
 
 	private Map<String, Object> executeProvidersMethod(String methodType,
@@ -284,7 +277,6 @@ public class ProviderController {
 								args[0], args[1], args[2], args[3], args[4],
 								args[5], args[6], args[7], args[8], args[9]);
 			}
-
 		}
 		if (isLastNameAndFacilityNameTogether) {
 			return providerService
@@ -296,7 +288,6 @@ public class ProviderController {
 				.getByGenderCodeAndPostalCodeAndSpecialityAndTelephoneNumberAndLastNameAndFirstNameAndEntityTypeAndProviderOrganizationName(
 						args[0], args[1], args[2], args[3], args[4], args[5],
 						args[6], args[7], args[8]);
-
 	}
 
 	private boolean isLastNameAndFacilityNameTogether(HttpServletRequest request) {
