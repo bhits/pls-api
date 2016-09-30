@@ -3,9 +3,6 @@ package gov.samhsa.pls.web.util;
 /**
  * Enumeration that provides URL parameter names and parsing logic for
  * {@code gov.samhsa.pls.domain.web.controller.ProviderController}.
- *
- * @author Jason A. Hoppes
- *
  */
 public enum URLArgument {
 	GENDER(URLHelper.GENDER, 0, 0), POSTAL_CODE(URLHelper.POSTAL_CODE, -1, 1), US_STATE(

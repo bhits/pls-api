@@ -1,50 +1,52 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>gov.samhsa.c2s</groupId>
-		<artifactId>pls</artifactId>
-		<version>1.9.0-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <groupId>gov.samhsa.c2s</groupId>
+        <artifactId>pls</artifactId>
+        <version>1.9.0-SNAPSHOT</version>
+    </parent>
 
-	<artifactId>pls-service</artifactId>
-	<name>PLS Service</name>
+    <artifactId>pls-service</artifactId>
+    <name>PLS Service</name>
+    <url>${project.scm.url}</url>
 
-	<dependencies>
-		<!-- Our Own Projects: Start -->
-		<dependency>
-			<groupId>gov.samhsa.c2s</groupId>
-			<artifactId>pls-domain</artifactId>
-		</dependency>
-		<!-- Our Own Projects: End -->
+    <scm>
+        <url>https://github.com/bhits/pls-api</url>
+        <connection>scm:git:${project.scm.url}.git</connection>
+        <developerConnection>scm:git:${project.scm.url}.git</developerConnection>
+    </scm>
 
-		<dependency>
-			<groupId>net.sf.dozer</groupId>
-			<artifactId>dozer</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>log4j</groupId>
-					<artifactId>log4j</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+    <dependencies>
+        <!-- Our Own Projects: Start -->
+        <dependency>
+            <groupId>gov.samhsa.c2s</groupId>
+            <artifactId>pls-domain</artifactId>
+        </dependency>
+        <!-- Our Own Projects: End -->
 
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-beans</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-tx</artifactId>
-		</dependency>
-
-	</dependencies>
-
+        <dependency>
+            <groupId>net.sf.dozer</groupId>
+            <artifactId>dozer</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+        </dependency>
+    </dependencies>
 </project>
