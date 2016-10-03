@@ -158,7 +158,10 @@ The current code base of this API is based on a legacy implementation, so it use
 
 ## Contact
 
+If you have any questions, comments, or concerns please see [Consent2Share]() project site.
+
 ## Report Issues
+
 Please use [GitHub Issues](https://github.com/bhits/pls-api/issues) page to report issues.
 
 [//]: # (License)
