@@ -1,6 +1,6 @@
 # Provider Lookup Service API
 
-The Provider Lookup Service (PLS) API is responsible for storing provider information as a provider directory. PLS also provides a RESTful API for querying providers by using several query parameters including *first name, last name, gender, address, phone number* for individual providers and *organization name, address, phone number* for organizational providers.
+The Provider Lookup Service (PLS) API is responsible for storing provider information as a provider directory. PLS also provides a RESTful API for querying providers by using several query parameters including *first name, last name, gender, address, and phone number* for individual providers, and *organization name, address, and phone number* for organizational providers.
 
 
 ## Build
@@ -14,7 +14,7 @@ The Provider Lookup Service (PLS) API is responsible for storing provider inform
 
 This is a Maven project and requires [Apache Maven](https://maven.apache.org/) 3.3.3 or greater to build it. It is recommended to use the *Maven Wrapper* scripts provided with this project. *Maven Wrapper* requires internet connection to download Maven and project dependencies for the very first build.
 
-To build the project, navigate to the folder that contains [**parent** `pom.xml` file](pls/pom.xml) using terminal/command line.
+To build the project, navigate to the folder that contains the [**parent** `pom.xml` file](pls/pom.xml) using terminal/command line.
 
 + To build a JAR:
     + For Windows, run `mvnw.cmd clean install`
@@ -27,7 +27,7 @@ To build the project, navigate to the folder that contains [**parent** `pom.xml`
 
 ### Prerequisites
 
-This API uses *[MySQL](https://www.mysql.com/)* for persistence. It requires to have a database user account with Object Rights to a schema with default name `npi`. *Please see [Configure](#configure) section for details of configuring the data source.*
+This API uses *[MySQL](https://www.mysql.com/)* for persistence. It requires having a database user account with Object Rights to a schema with default name `npi`. *Please see [Configure](#configure) section for details of configuring the data source.*
 
 This API is a [Spring MVC](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html) project that requires a separate application server to run it. [Apache Tomcat 8](http://tomcat.apache.org/) is the recommended application server to run this API. The expected default context path for this API is `/pls`.
 
@@ -144,7 +144,7 @@ services:
 
 ### Override Java CA Certificates Store In Docker Environment
 
-Java has a default CA Certificates Store that allows it to trust well-known certificate authorities. For development and testing purposes, one might want to trust additional self-signed certificates. In order to override the default Java CA Certificates Store in docker container, one can mount a custom `cacerts` file over the default one in the docker image as `docker run -d -v "/path/on/dockerhost/to/custom/cacerts:/etc/ssl/certs/java/cacerts" bhits/pls:latest`
+Java has a default CA Certificates Store that allows it to trust well-known certificate authorities. For development and testing purposes, one might want to trust additional self-signed certificates. In order to override the default Java CA Certificates Store in a Docker container, one can mount a custom `cacerts` file over the default one in the Docker image as `docker run -d -v "/path/on/dockerhost/to/custom/cacerts:/etc/ssl/certs/java/cacerts" bhits/pls:latest`
 
 *NOTE: The `cacerts` references given in the both sides of volume mapping above are files, not directories.*
 
