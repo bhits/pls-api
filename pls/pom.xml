@@ -48,19 +48,6 @@
         <developerConnection>scm:git:${project.scm.url}.git</developerConnection>
     </scm>
 
-    <distributionManagement>
-        <repository>
-            <id>deployment</id>
-            <name>Internal Releases</name>
-            <url>http://${maven.nexus.servername}/repository/releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>deployment</id>
-            <name>Internal Releases</name>
-            <url>http://${maven.nexus.servername}/repository/snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
-
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -138,11 +125,6 @@
         <pluginRepository>
             <id>onejar-maven-plugin.googlecode.com</id>
             <url>http://onejar-maven-plugin.googlecode.com/svn/mavenrepo</url>
-        </pluginRepository>
-        <pluginRepository>
-            <id>tlc</id>
-            <name>TLC Repository</name>
-            <url>http://commons.ucalgary.ca/pub/m2</url>
         </pluginRepository>
         <pluginRepository>
             <id>wso2-maven2-repository</id>
@@ -606,6 +588,35 @@
         <!-- mvn clean install -->
         <!-- mvn clean install -Pdev -->
         <!-- mvn clean install -Denvironment.type=dev -->
+            <profile>
+                <id>external-build</id>
+                <activation>
+                    <activeByDefault>true</activeByDefault>
+                </activation>
+                <repositories>
+                    <repository>
+                        <id>repo.spring.io</id>
+                        <name>Spring Milestone Repository</name>
+                        <url>https://repo.spring.io/libs-milestone-local</url>
+                    </repository>
+                </repositories>
+            </profile>
+            <profile>
+                <id>bhits-mvn-repo</id>
+                <distributionManagement>
+                    <repository>
+                        <id>deployment</id>
+                        <name>Internal Releases</name>
+                        <url>http://${maven.nexus.servername}/repository/releases/</url>
+                    </repository>
+                    <snapshotRepository>
+                        <id>deployment</id>
+                        <name>Internal Releases</name>
+                        <url>http://${maven.nexus.servername}/repository/snapshots/</url>
+                    </snapshotRepository>
+                </distributionManagement>
+            </profile>
+
         <profile>
             <id>dev</id>
             <activation>
