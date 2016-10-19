@@ -27,9 +27,9 @@ To build the project, navigate to the folder that contains the [**parent** `pom.
 
 ### Prerequisites
 
-This API uses *[MySQL](https://www.mysql.com/)* for persistence. It requires having a database user account with Object Rights to a schema with default name `npi`. *Please see [Configure](#configure) section for details of configuring the data source.*
+This API uses *[MySQL](https://www.mysql.com/)* for persistence. It requires having a database user account with Object Rights to a schema with the default name `npi`. *Please see [Configure](#configure) section for details of configuring the data source.*
 
-Currently, PLS do not support a database migration process, so the schema is needed to be created manually. A [SQL file](npi-db-sample/npi-db-sample.sql) is provided with this project to create the schema and populate it with a small set of sample provider data.
+Currently, the PLS API does not support a database migration process, so the schema must be created manually. A [SQL file](npi-db-sample/npi-db-sample.sql) is provided with this project to create the schema and populate it with a small set of sample provider data.
 
 This API is a [Spring MVC](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html) project that requires a separate application server to run it. [Apache Tomcat 8](http://tomcat.apache.org/) is the recommended application server to run this API. The expected default context path for this API is `/pls`.
 
