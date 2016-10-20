@@ -160,7 +160,7 @@ The current code base of this API is based on a legacy implementation, so it use
 
 ## Contact
 
-If you have any questions, comments, or concerns please see [Consent2Share]() project site.
+If you have any questions, comments, or concerns please see [Consent2Share](https://bhits.github.io/consent2share/) project site.
 
 ## Report Issues
 
