@@ -92,7 +92,7 @@ jqVmrSh0UeHwQcrA/qZOdg==
 
 ### Provide Environment Variables While Running as a Docker Container
 
-+ `docker run -d -e "C2S_PROPS=/java/C2S_PROPS" -e "C2S_KEY=strongpassword" -e "SCAN_PERIOD=60 seconds" -e "AUTO_SCAN=true" -v "/path/to/config/root/on/dockerhost:/java/C2S_PROPS" bhits/pls:latest`
++ `docker run -d -e CATALINA_OPTS="C2S_PROPS=/java/C2S_PROPS C2S_KEY=strongpassword AUTO_SCAN=true SCAN_PERIOD=60 seconds" -v "/path/to/config/root/on/dockerhost:/java/C2S_PROPS" bhits/pls:latest`
 + In a `docker-compose.yml`, this can be provided as:
 
 ```yml
@@ -102,10 +102,7 @@ services:
   pls.c2s.com:
     image: "bhits/pls:latest"
     environment:
-      C2S_PROPS: "/java/C2S_PROPS"
-      C2S_KEY: "strongpassword"
-      SCAN_PERIOD: "60 seconds"
-      AUTO_SCAN: "true"
+      CATALINA_OPTS: "C2S_PROPS=/java/C2S_PROPS C2S_KEY=strongpassword AUTO_SCAN=true SCAN_PERIOD=60 seconds"
     volumes:
       - /path/to/config/root/on/dockerhost:/java/C2S_PROPS
 ...
