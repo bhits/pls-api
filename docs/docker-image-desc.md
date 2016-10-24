@@ -6,7 +6,7 @@ Provider Lookup Service (PLS) API is responsible for storing provider informatio
 
 # Supported Tags and Respective `Dockerfile` Links
 
-[`1.9.0`](https://github.com/bhits/pls-api/blob/dev/pls/web/src/main/docker/Dockerfile),[`latest`](https://github.com/bhits/pls-api/blob/dev/pls/web/src/main/docker/Dockerfile)[(1.9.0/Dockerfile)](https://github.com/bhits/pls-api/blob/dev/pls/web/src/main/docker/Dockerfile)
+[`1.11.0`](https://github.com/bhits/pls-api/blob/dev/pls/web/src/main/docker/Dockerfile),[`latest`](https://github.com/bhits/pls-api/blob/dev/pls/web/src/main/docker/Dockerfile)[(1.9.0/Dockerfile)](https://github.com/bhits/pls-api/blob/dev/pls/web/src/main/docker/Dockerfile)
 
 For more information about this image, the source code, and its history, please see the [GitHub repository](https://github.com/bhits/pls-api).
 
@@ -46,7 +46,7 @@ This environment variable can be override by passing through CATALINA_OPTS. Make
 `docker run --name pls -e CATALINA_OPTS="-DC2S_PROPS=/path/in/container" -v /path/on/dockerhost/pls-config.properties:/path/in/container/pls-api/config-template/pls-config.properties -v /path/on/dockerhost/pls-config-logback_included.xml:/path/in/container/pls-api/config-template/pls-config-logback_included.xml -d bhits/pls:latest`
 
 ### C2S_KEY
-PLS uses Jasypt to decrypt the encrypted properties. C2S_KEY is used as a password for encryption. The encrypted properties should be wrapped in ENC(...) in the pls-config.properties file. It is still allowed to use plain text property values as usual. C2S_KEY for [pls-config.properties](https://github.com/bhits/pls-api/tree/master/config-template/pls-config.properties) is `9HPcr8z634`.
+PLS supports Jasypt to decrypt the encrypted properties. C2S_KEY is used as a password for encryption. The encrypted properties should be wrapped in ENC(...) in the pls-config.properties file.
 
 `docker run --name pls -e CATALINA_OPTS="-DC2S_KEY=9HPcr8z634" -d bhits/pls:latest`
 
