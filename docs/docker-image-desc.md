@@ -6,7 +6,7 @@ Provider Lookup Service (PLS) API is responsible for storing provider informatio
 
 # Supported Tags and Respective `Dockerfile` Links
 
-[`1.11.0`](https://github.com/bhits/pls-api/blob/dev/pls/web/src/main/docker/Dockerfile),[`latest`](https://github.com/bhits/pls-api/blob/dev/pls/web/src/main/docker/Dockerfile)[(1.9.0/Dockerfile)](https://github.com/bhits/pls-api/blob/dev/pls/web/src/main/docker/Dockerfile)
+[`1.11.0`](https://github.com/bhits/pls-api/blob/dev/pls/web/src/main/docker/Dockerfile),[`latest`](https://github.com/bhits/pls-api/blob/dev/pls/web/src/main/docker/Dockerfile)[(1.11.0/Dockerfile)](https://github.com/bhits/pls-api/blob/dev/pls/web/src/main/docker/Dockerfile)
 
 For more information about this image, the source code, and its history, please see the [GitHub repository](https://github.com/bhits/pls-api).
 
