@@ -1,6 +1,6 @@
 
 # Short Description
-Provider Lookup Service (PLS) API is responsible for storing provider information.
+The Provider Lookup Service (PLS) API is responsible for storing provider information.
 
 # Full Description
 
@@ -16,9 +16,9 @@ The Provider Lookup Service (PLS) API is responsible for storing provider inform
 
 For more information and related downloads for Consent2Share, please visit [Consent2Share](https://bhits.github.io/consent2share/).
 
-# How to use this image
+# How to Use This Image
 
-## Start a PLS instance
+## Start a PLS Instance
 
 Be sure to familiarize yourself with the repository's [README.md](https://github.com/bhits/pls-api) file before starting the instance.
 
@@ -64,7 +64,7 @@ This variable is used to configure [logback auto scan period](http://logback.qos
 
 `docker run --name pls -e CATALINA_OPTS="-DSCAN_PERIOD=30 SECONDS" -d bhits/pls:latest`
 
-# Supported Docker versions
+# Supported Docker Versions
 
 This image is officially supported on Docker version 1.12.1.
 
