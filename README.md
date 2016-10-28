@@ -75,7 +75,7 @@ password: strongpassword
 hm7aAgkyntvhoT6NGR5E1A==
 ```
 
-*Example for \*nix Systems:*
+*Example for \* nix Systems:*
 
 ```bash
 root@test /jasypt-1.9.2-dist/jasypt-1.9.2/bin
