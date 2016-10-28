@@ -62,7 +62,7 @@ This API supports externalized configuration, but it expects certain environment
 
 Jasypt provides a command line utility that can be used to encrypt the property values. Please refer to [Jasypt](http://www.jasypt.org/) documentation for details.
 
-*Example for Windows:*
+Example for Windows:
 ```bat
 C:\jasypt-1.9.2-dist\jasypt-1.9.2\bin>encrypt.bat input=admin password=strongpassword
 
@@ -75,7 +75,7 @@ password: strongpassword
 hm7aAgkyntvhoT6NGR5E1A==
 ```
 
-*Example for \* nix Systems:*
+Example for \*nix Systems:
 
 ```bash
 root@test /jasypt-1.9.2-dist/jasypt-1.9.2/bin
