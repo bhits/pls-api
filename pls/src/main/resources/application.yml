@@ -2,10 +2,6 @@ server:
   port: 8453
 logging:
   file: /java/C2S_LOGS/pls/pls.log
-  level:
-    org.hibernate.SQL: debug
-    org.hibernate.type: trace
-    org.hibernate.jdbc: trace
 info:
   component: Provider Lookup Service
 eureka:
@@ -45,4 +41,15 @@ spring:
   data:
     rest:
       default-page-size: 10
-
+---
+# updates configuration for docker environment
+spring:
+  profiles: docker
+  datasource:
+    url: jdbc:mysql://${C2S_DB_HOST:pls-db.c2s.com}:${C2S_DB_PORT:3306}/phr?autoReconnect=true
+eureka:
+  client:
+    service-url:
+      defaultZone: ${eureka.client.protocol:http}://discovery-server.c2s.com:8761/eureka/
+  instance:
+    prefer-ip-address: true
