@@ -1,0 +1,48 @@
+server:
+  port: 8453
+logging:
+  file: /java/C2S_LOGS/pls/pls.log
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
+    org.hibernate.jdbc: trace
+info:
+  component: Provider Lookup Service
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${random.value}}
+    secure-port-enabled: false
+    non-secure-port-enabled: true
+  client:
+    healthcheck:
+      enabled: true
+    service-url:
+      # endpoint for discovery-server, pass '--eureka.client.protocol=https' if discovery-server is running on https
+      defaultZone: ${eureka.client.protocol:http}://localhost:8761/eureka/
+spring:
+  datasource:
+    # configure url, username and password per environment
+    url: jdbc:mysql://localhost:3306/pls?autoReconnect=true
+    username: root
+    password: admin
+    driver-class-name: com.mysql.jdbc.Driver
+    validation-query: select 1
+    test-on-borrow: true
+    test-on-return: true
+    test-while-idle: true
+    time-between-eviction-runs-millis: 1800000
+    num-tests-per-eviction-run: 3
+    min-evictable-idle-time-millis: 1800000
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        hbm2ddl:
+          auto: validate
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  data:
+    rest:
+      default-page-size: 10
+
