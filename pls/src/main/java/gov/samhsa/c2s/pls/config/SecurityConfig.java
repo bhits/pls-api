@@ -5,22 +5,31 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-
+import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 
 @Configuration
-@EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
 
     private static final String RESOURCE_ID = "pls";
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception
-    {
-        http.
-                csrf().disable()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/**").permitAll()
-                .anyRequest().denyAll();
-    }}
+    @Bean
+    public ResourceServerConfigurer resourceServer(SecurityProperties securityProperties) {
+        return new ResourceServerConfigurerAdapter() {
+            @Override
+            public void configure(ResourceServerSecurityConfigurer resources) {
+                resources.resourceId(RESOURCE_ID);
+            }
+
+            @Override
+            public void configure(HttpSecurity http) throws Exception {
+
+                http.authorizeRequests()
+                        .antMatchers(HttpMethod.GET, "/providers/**").access("#oauth2.hasScope('pls.read')")
+                        .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .anyRequest().denyAll();
+            }
+        };
+    }
+}

@@ -1,6 +1,6 @@
 package gov.samhsa.c2s.pls.domain.provider;
 
-import gov.samhsa.c2s.pls.domain.reference.EntityTypeCode;
+import gov.samhsa.c2s.pls.domain.reference.EntityType;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -16,7 +16,7 @@ public class Provider {
     private String npi;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    private EntityTypeCode entityType;
+    private EntityType entityType;
 
     @Size(min = 2, max = 30)
     @Pattern(regexp = "^[a-zA-ZÀ-ÿ]+[-]?[a-zA-ZÀ-ÿ']*[a-zA-ZÀ-ÿ]$")

@@ -8,10 +8,10 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
-public class EntityTypeCode{
+public class EntityType {
 /*
 entityTypeCode =1 Individual
-entityTypeCode =2 Organizational
+entityTypeCode =2 Organization
 */
     @Id
     @NotNull
