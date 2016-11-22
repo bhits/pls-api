@@ -13,6 +13,7 @@ import java.util.Date;
 public class Provider {
     @Id
     @NotNull
+    @Size(max = 10)
     private String npi;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -69,15 +70,9 @@ public class Provider {
 
     private String businessPracticeLocationAddressFaxNumber;
 
-    @Past
-    @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = "MM/dd/yyyy")
-    private Date enumerationDate;
+    private String enumerationDate;
 
-    @Past
-    @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = "MM/dd/yyyy")
-    private Date lastUpdateDate;
+    private String lastUpdateDate;
 
 
 }
