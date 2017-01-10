@@ -1,5 +1,6 @@
 server:
   port: 8453
+  context-path: /pls
 logging:
   file: /java/C2S_LOGS/pls/pls.log
 info:
