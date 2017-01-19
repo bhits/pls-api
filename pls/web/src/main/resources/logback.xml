@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-
-<configuration scan="${AUTO_SCAN}" scanPeriod="${SCAN_PERIOD}">
-
-	<include file="${C2S_PROPS}/pls-api/config-template/pls-config-logback_included.xml"/>
-
-</configuration>
