@@ -26,6 +26,9 @@ public class SecurityConfig {
             public void configure(HttpSecurity http) throws Exception {
 
                 http.authorizeRequests()
+                        // Security scope for accessing management endpoint
+                        .antMatchers(HttpMethod.GET, "/management/**").access("#oauth2.hasScope('pls.management')")
+                        .antMatchers(HttpMethod.POST, "/management/**").access("#oauth2.hasScope('pls.management')")
                         .antMatchers(HttpMethod.GET, "/providers/**").access("#oauth2.hasScope('pls.read')")
                         .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().denyAll();
