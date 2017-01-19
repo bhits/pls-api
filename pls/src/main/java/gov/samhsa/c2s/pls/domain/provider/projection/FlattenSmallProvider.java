@@ -5,8 +5,8 @@ import gov.samhsa.c2s.pls.domain.provider.Provider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.rest.core.config.Projection;
 
-@Projection(name="ProviderProjection", types={Provider.class})
-public interface ProviderProjection {
+@Projection(name="FlattenSmallProvider", types={Provider.class})
+public interface FlattenSmallProvider {
     String getNpi();
 
     @Value("#{target.entityType.code}")
