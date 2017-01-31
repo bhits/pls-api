@@ -8,7 +8,7 @@ The Provider Lookup Service (PLS) API is responsible for storing provider inform
 
 [`2.1.0 (latest)`](https://github.com/bhits/pls-api/releases/tag/2.1.0), [`1.11.0`](https://github.com/bhits/pls-api/releases/tag/1.11.0)
 
-[`Current Dockerfile`](https://github.com/bhits/pls-api/blob/master/pls/web/src/main/docker/Dockerfile)
+[`Current Dockerfile`](https://github.com/bhits/pls-api/blob/master/pls/src/main/docker/Dockerfile)
 
 For more information about this image, the source code, and its history, please see the [GitHub repository](https://github.com/bhits/pls-api).
 
