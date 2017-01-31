@@ -1,6 +1,6 @@
 # Provider Lookup Service API
 
-The Provider Lookup Service (PLS) API is responsible for storing provider information as a provider directory. PLS also provides a RESTful API for querying providers by using several query parameters including *first name, last name, gender, address, and phone number* for individual providers, and *organization name, address, and phone number* for organizational providers.
+The Provider Lookup Service (PLS) API is responsible for storing provider information as a provider directory. The PLS also provides a RESTful API for querying providers by using several query parameters including *first name, last name, gender, address, and phone number* for individual providers, and *organization name, address, and phone number* for organizational providers.
 
 
 ## Build
@@ -12,9 +12,9 @@ The Provider Lookup Service (PLS) API is responsible for storing provider inform
 
 ### Commands
 
-This is a Maven project and requires [Apache Maven](https://maven.apache.org/) 3.3.3 or greater to build it. It is recommended to use the *Maven Wrapper* scripts provided with this project. *Maven Wrapper* requires internet connection to download Maven and project dependencies for the very first build.
+This is a Maven project and requires [Apache Maven](https://maven.apache.org/) 3.3.3 or greater to build it. It is recommended to use the *Maven Wrapper* scripts provided with this project. *Maven Wrapper* requires an internet connection to download Maven and project dependencies for the very first build.
 
-To build the project, navigate to the folder that contains the [**parent** `pom.xml` file](pls/pom.xml) using terminal/command line.
+To build the project, navigate to the folder that contains the [**parent** `pom.xml` file](pls/pom.xml) using the terminal/command line.
 
 + To build a JAR:
     + For Windows, run `mvnw.cmd clean install`
@@ -27,132 +27,84 @@ To build the project, navigate to the folder that contains the [**parent** `pom.
 
 ### Prerequisites
 
-This API uses *[MySQL](https://www.mysql.com/)* for persistence. It requires having a database user account with Object Rights to a schema with the default name `npi`. *Please see [Configure](#configure) section for details of configuring the data source.*
+This API uses *[MySQL](https://www.mysql.com/)* for persistence and *[Flyway](https://flywaydb.org/)* for database migration. It requires having a database user account with Object and DDL Rights to a schema with the default name `pls`. Please see [Configure](#configure) section for details of configuring the data source. 
 
-Currently, the PLS API does not support a database migration process, so the schema must be created manually. A [SQL file](npi-db-sample/npi-db-sample.sql) is provided with this project to create the schema and populate it with a small set of sample provider data.
+A [SQL file](https://github.com/bhits/pls-api/blob/master/npi-db-sample/npi-db-sample.sql) is provided with this project to populate it with a small set of sample provider data.
 
-This API is a [Spring MVC](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html) project that requires a separate application server to run it. [Apache Tomcat 8](http://tomcat.apache.org/) is the recommended application server to run this API. The expected default context path for this API is `/pls`.
+### Commands
 
-### Deployment
+This is a [Spring Boot](https://projects.spring.io/spring-boot/) project and serves the API via an embedded Tomcat instance. Therefore, there is no need for a separate application server to run this service.
++ Run as a JAR file: `java -jar pls-x.x.x-SNAPSHOT.jar <additional program arguments>`
++ Run as a Docker Container: `docker run -d bhits/pls:latest <additional program arguments>`
 
-For easy deployment:
+*NOTE: In order for this API to fully function as a microservice in C2S Application, it is also required to setup the dependency microservices and support level infrastructure. Please refer to the [C2S Deployment Guide](https://github.com/bhits/consent2share/releases/download/2.1.0/c2s-deployment-guide.pdf) for instructions to setup the C2S infrastructure.*
 
-1. Find the `war` file located in `pls/web/target` folder after building the project
-2. Rename the file to `pls.war` if it has a different name
-3. Copy `pls.war` to Tomcat's `webapps` folder
-4. Configure Tomcat and PLS properties *(See [Configure](#configure) section)*
-5. Start up Tomcat
-
-Please refer to [Tomcat Web Application Deployment](http://tomcat.apache.org/tomcat-8.0-doc/deployer-howto.html) documentation for more details about Tomcat deployment.
 
 ## Configure
 
-This API supports externalized configuration, but it expects certain environment variable to be available in Tomcat. Please navigate to `$TOMCAT_HOME/conf/catalina.properties` and add the following variables:
+This API utilizes [`Configuration Server`](https://github.com/bhits/config-server) which is based on [Spring Cloud Config](https://github.com/spring-cloud/spring-cloud-config) to manage externalized configuration, which is stored in a `Configuration Data Git Repository`. We provide a [`Default Configuration Data Git Repository`]( https://github.com/FEISystems/c2s-config-data).
 
-+ `C2S_PROPS`: This should be the location of root directory for externalized configuration. If `C2S_PROPS=/c2s-config`, PLS will try to load these external configuration files:
-	+ `/c2s-config/pls-api/config-template/pls-config.properties`: Contains configuration for data source, Cross-origin Resource Sharing (CORS), and Instrumentation Key for checking logging level. Please see the [sample properties file](config-template/pls-config.properties).
-	+ `/c2s-config/pls-api/config-template/pls-config-logback_included.xml`: External [logback](http://logback.qos.ch/) file that will be included into the application logback configuration. This file can be used to configure logging details including where the log files will be stored and logging level. Please see the [sample included logback file](config-template/pls-config-logback_included.xml).
+This API can run with the default configuration, which is targeted for a local development environment. Default configuration data is from three places: `bootstrap.yml`, `application.yml`, and the data which `Configuration Server` reads from `Configuration Data Git Repository`. Both `bootstrap.yml` and `application.yml` files are located in the `resources` folder of this source code.
 
-+ `C2S_KEY`: PLS uses [Jasypt](http://www.jasypt.org/) to decrypt the encrypted properties. `C2S_KEY` is used as a password for encryption. The encrypted properties should be wrapped in `ENC(...)` in the `pls-config.properties` file. It is still allowed to use plain text property values as usual.
-	+ Example: `database.password=ENC(VSWiYdKWUgxQGzQw7WjEAA==)`
-+ `AUTO_SCAN`: This variable is used to configure [logback auto scan](http://logback.qos.ch/manual/configuration.html#autoScan) feature, so the expected value for this property is `true` or `false`. If `AUTO_SCAN=true`, logback will scan for changes in the included external configuration file and reconfigure itself when it detects a change.
-+ `SCAN_PERIOD`: This variable is used to configure [logback auto scan period](http://logback.qos.ch/manual/configuration.html#autoScan) configuration. If `SCAN_PERIOD=30 seconds`, logback will scan the external file for changes for every 30 seconds.
+We **recommend** overriding the configuration as needed in the `Configuration Data Git Repository`, which is used by the `Configuration Server`.
 
-### Encrypt Property Values Using Jasypt
+Also, please refer to [Spring Cloud Config Documentation](https://cloud.spring.io/spring-cloud-config/spring-cloud-config.html) to see how the config server works, [Spring Boot Externalized Configuration](http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html) documentation to see how Spring Boot applies the order to load the properties, and [Spring Boot Common Properties](http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html) documentation to see the common properties used by Spring Boot.
 
-Jasypt provides a command line utility that can be used to encrypt the property values. Please refer to [Jasypt](http://www.jasypt.org/) documentation for details.
+### Other Ways to Override Configuration
 
-Example for Windows:
-```bat
-C:\jasypt-1.9.2-dist\jasypt-1.9.2\bin>encrypt.bat input=admin password=strongpassword
+#### Override a Configuration Using Program Arguments While Running as a JAR:
 
-----ENVIRONMENT-----------------
-Runtime: Oracle Corporation Java HotSpot(TM) 64-Bit Server VM 25.71-b15
-----ARGUMENTS-------------------
-input: admin
-password: strongpassword
-----OUTPUT----------------------
-hm7aAgkyntvhoT6NGR5E1A==
-```
++ `java -jar pls-x.x.x-SNAPSHOT.jar --server.port=80 --spring.datasource.password=strongpassword`
 
-Example for \*nix Systems:
+#### Override a Configuration Using Program Arguments While Running as a Docker Container:
 
-```bash
-root@test /jasypt-1.9.2-dist/jasypt-1.9.2/bin
-$ encrypt.sh input=admin password=strongpassword
++ `docker run -d bhits/pls:latest --server.port=80 --spring.datasource.password=strongpassword`
 
-----ENVIRONMENT-----------------
-Runtime: Oracle Corporation Java HotSpot(TM) 64-Bit Server VM 25.71-b15
-----ARGUMENTS-------------------
-input: admin
-password: strongpassword
-----OUTPUT----------------------
-jqVmrSh0UeHwQcrA/qZOdg==
-```
-
-### Provide Environment Variables While Running as a Docker Container
-
-+ `docker run -d -e CATALINA_OPTS="-DC2S_PROPS=/java/C2S_PROPS -DC2S_KEY=strongpassword -DAUTO_SCAN=true -DSCAN_PERIOD=60 seconds" -v "/path/to/config/root/on/dockerhost:/java/C2S_PROPS" bhits/pls:latest`
-+ In a `docker-compose.yml`, this can be provided as:
-
++ In a `docker-compose.yml`, this can be provided as shown below:
 ```yml
 version: '2'
 services:
 ...
   pls.c2s.com:
     image: "bhits/pls:latest"
-    environment:
-      CATALINA_OPTS: "-DC2S_PROPS=/java/C2S_PROPS -DC2S_KEY=strongpassword -DAUTO_SCAN=true -DSCAN_PERIOD=60 seconds"
-    volumes:
-      - /path/to/config/root/on/dockerhost:/java/C2S_PROPS
+    command: ["--server.port=80","--spring.datasource.password=strongpassword"]
 ...
 ```
+*NOTE: Please note that these additional arguments will be appended to the default `ENTRYPOINT` specified in the `Dockerfile` unless the `ENTRYPOINT` is overridden.*
 
 ### Enable SSL
 
-Please refer to [Apache Tomcat 8 SSL/TLS Configuration HOW-TO](https://tomcat.apache.org/tomcat-8.0-doc/ssl-howto.html) documentation for configuring SSL on Tomcat.
+For simplicity in development and testing environments, SSL is **NOT** enabled by default configuration. SSL can easily be enabled following the examples below:
 
-In Docker environment, `$TOMCAT_HOME/conf/server.xml` can be overridden by mounting a volume as `"/path/on/dockerhost/server.xml:/usr/local/tomcat/conf/server.xml"`. The mounted `server.xml` file can refer to a keystore inside the container that can be separately mounted like `"/path/on/dockerhost/ssl_keystore.keystore:/ssl_keystore.keystore"`.
+#### Enable SSL While Running as a JAR
 
-In a `docker-compose.yml`, this can be provided as:
++ `java -jar pls-x.x.x-SNAPSHOT.jar --spring.profiles.active=ssl --server.ssl.key-store=/path/to/ssl_keystore.keystore --server.ssl.key-store-password=strongkeystorepassword`
 
+#### Enable SSL While Running as a Docker Container
+
++ `docker run -d -v "/path/on/dockerhost/ssl_keystore.keystore:/path/to/ssl_keystore.keystore" bhits/pls:latest --spring.profiles.active=ssl --server.ssl.key-store=/path/to/ssl_keystore.keystore --server.ssl.key-store-password=strongkeystorepassword`
++ In a `docker-compose.yml`, this can be provided as follows:
 ```yml
 version: '2'
 services:
 ...
   pls.c2s.com:
     image: "bhits/pls:latest"
+    command: ["--spring.profiles.active=ssl","--server.ssl.key-store=/path/to/ssl_keystore.keystore", "--server.ssl.key-store-password=strongkeystorepassword"]
     volumes:
-      - /path/on/dockerhost/server.xml:/usr/local/tomcat/conf/server.xml
-      - /path/on/dockerhost/ssl_keystore.keystore:/ssl_keystore.keystore
+      - /path/on/dockerhost/ssl_keystore.keystore:/path/to/ssl_keystore.keystore
 ...
 ```
 
-*Example `server.xml` Snippet with `keystore` Configuration:*
-```xml
-...
-<!-- Define a SSL Coyote HTTP/1.1 Connector on port 8443 -->
-<Connector
-           protocol="org.apache.coyote.http11.Http11NioProtocol"
-           port="8443" maxThreads="200"
-           scheme="https" secure="true" SSLEnabled="true"
-           keystoreFile="/ssl_keystore.keystore" keystorePass="changeit"
-           clientAuth="false" sslProtocol="TLS"/>
-...
-```
+*NOTE: As seen in the examples above, `/path/to/ssl_keystore.keystore` is made available to the container via a volume mounted from the Docker host running this container.*
 
 ### Override Java CA Certificates Store In Docker Environment
 
-Java has a default CA Certificates Store that allows it to trust well-known certificate authorities. For development and testing purposes, one might want to trust additional self-signed certificates. In order to override the default Java CA Certificates Store in a Docker container, one can mount a custom `cacerts` file over the default one in the Docker image as `docker run -d -v "/path/on/dockerhost/to/custom/cacerts:/etc/ssl/certs/java/cacerts" bhits/pls:latest`
+Java has a default CA Certificates Store that allows it to trust well-known certificate authorities. For development and testing purposes, one might want to trust additional self-signed certificates. In order to override the default Java CA Certificates Store in a Docker container, one can mount a custom `cacerts` file over the default one in the Docker image as follows: `docker run -d -v "/path/on/dockerhost/to/custom/cacerts:/etc/ssl/certs/java/cacerts" bhits/pls:latest`
 
-*NOTE: The `cacerts` references given in the both sides of volume mapping above are files, not directories.*
+*NOTE: The `cacerts` references given in the volume mapping above are files, not directories.*
 
 [//]: # (## API Documentation)
-
-## Notes
-
-The current code base of this API is based on a legacy implementation, so it uses relatively older technologies compared to the other Consent2Share (C2S) microservices and it does not follow the same coding styles and implementation guidelines. The BHITS Development Team is planning to modernize this API by a complete redesign and rewrite of it as a [Spring Boot](https://projects.spring.io/spring-boot/) project for better integration with C2S infrastructure.
-
 [//]: # (## Contribute)
 
 ## Contact
