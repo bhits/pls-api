@@ -4,15 +4,17 @@ The Provider Lookup Service (PLS) API is responsible for storing provider inform
 
 # Full Description
 
-# Supported Tags and Respective `Dockerfile` Links
+# Supported Source Code Tags and Current `Dockerfile` Link
 
-[`1.11.0`](https://github.com/bhits/pls-api/blob/master/pls/web/src/main/docker/Dockerfile),[`latest`](https://github.com/bhits/pls-api/blob/master/pls/web/src/main/docker/Dockerfile)[(1.11.0/Dockerfile)](https://github.com/bhits/pls-api/blob/master/pls/web/src/main/docker/Dockerfile)
+[`2.1.0 (latest)`](https://github.com/bhits/pls-api/releases/tag/2.1.0), [`1.11.0`](https://github.com/bhits/pls-api/releases/tag/1.11.0)
+
+[`Current Dockerfile`](https://github.com/bhits/pls-api/blob/master/pls/src/main/docker/Dockerfile)
 
 For more information about this image, the source code, and its history, please see the [GitHub repository](https://github.com/bhits/pls-api).
 
 # What is PLS?
 
-The Provider Lookup Service (PLS) API is responsible for storing provider information as a provider directory. PLS also provides a RESTful API for querying providers by using several query parameters including *first name, last name, gender, address, and phone number* for individual providers, and *organization name, address, and phone number* for organizational providers.
+The Provider Lookup Service (PLS) API is responsible for storing provider information as a provider directory. The PLS also provides a RESTful API for querying providers by using several query parameters including *first name, last name, gender, address, and phone number* for individual providers, and *organization name, address, and phone number* for organizational providers.
 
 For more information and related downloads for Consent2Share, please visit [Consent2Share](https://bhits.github.io/consent2share/).
 
@@ -22,47 +24,44 @@ For more information and related downloads for Consent2Share, please visit [Cons
 
 Be sure to familiarize yourself with the repository's [README.md](https://github.com/bhits/pls-api) file before starting the instance.
 
-`docker run  --name pls -e "CATALINA_OPTS=<additional configuration>" -d bhits/pls:latest`
+`docker run  --name pls -d bhits/pls:latest <additional program arguments>`
 
-*NOTE: In order for this API to fully function as a microservice in the Consent2Share application, it is required to setup the dependency microservices and support level infrastructure. Please refer to the [Consent2Share Deployment Guide](https://github.com/bhits/consent2share/releases/download/2.0.0/c2s-deployment-guide.pdf) for instructions to setup the Consent2Share infrastructure.*
-
+*NOTE: In order for this API to fully function as a microservice in the Consent2Share application, it is required to setup the dependency microservices and the support level infrastructure. Please refer to the Consent2Share Deployment Guide in the corresponding Consent2Share release (see [Consent2Share Releases Page](https://github.com/bhits/consent2share/releases)) for instructions to setup the Consent2Share infrastructure.* 
 ## Configure
 
-This API requires [pls-config.properties](https://github.com/bhits/pls-api/tree/master/config-template/pls-config.properties) and [pls-config-logback_included.xml](https://github.com/bhits/pls-api/tree/master/config-template/pls-config-logback_included.xml) to be mount in the container.
-Default location in container is `/java/C2S_PROPS/pls-api/config-template/pls-config.properties` and `/java/C2S_PROPS/pls-api/config-template/pls-config-logback_included.xml`.
+The Spring profiles `application-default` and `docker` are activated by default when building images.
 
-`docker run --name pls -v /path/on/dockerhost/pls-config.properties:/java/C2S_PROPS/pls-api/config-template/pls-config.properties -v /path/on/dockerhost/pls-config-logback_included.xml:/java/C2S_PROPS/pls-api/config-template/pls-config-logback_included.xml -d bhits/pls:latest`
+This API can run with the default configuration which is from three places: `bootstrap.yml`, `application.yml`, and the data which the [`Configuration Server`](https://github.com/bhits/config-server) reads from the `Configuration Data Git Repository`. Both `bootstrap.yml` and `application.yml` files are located in the class path of the running application.
+
+We **recommend** overriding the configuration as needed in the `Configuration Data Git Repository`, which is used by the `Configuration Server`.
+
+Also, [Spring Boot](https://projects.spring.io/spring-boot/) supports other ways to override the default configuration to configure the API for a certain deployment environment. 
+
+The following is an example to override the default database password:
+
+`docker run -d bhits/pls:latest --spring.datasource.password=strongpassword`
 
 ## Environment Variables
 
-When you start the PLS image, you can edit the configuration of the PLS instance by passing environment variables on the command line. 
+When you start the PLS image, you can edit the configuration of the PLS instance by passing one or more environment variables on the command line. 
 
-### C2S_PROPS
+### JAR_FILE
 
-This should be the location of root directory for externalized configuration. The default value is `/java/C2S_PROPS`.  PLS will try to load two configuration files 
-`${C2S_PROPS}/pls-api/config-template/pls-config.properties` and `${C2S_PROPS}/pls-api/config-template/pls-config-logback_included.xml`.
+This environment variable is used to setup which jar file will run. You need to mount the jar file to the root of container.
 
-This environment variable can be overridden by passing through `CATALINA_OPTS`. Make sure you put the configuration file under it.
+`docker run --name pls -e JAR_FILE="pls-latest.jar" -v "/path/on/dockerhost/pls-latest.jar:/pls-latest.jar" -d bhits/pls:latest`
 
-`docker run --name pls -e CATALINA_OPTS="-DC2S_PROPS=/path/in/container" -v /path/on/dockerhost/pls-config.properties:/path/in/container/pls-api/config-template/pls-config.properties -v /path/on/dockerhost/pls-config-logback_included.xml:/path/in/container/pls-api/config-template/pls-config-logback_included.xml -d bhits/pls:latest`
+### JAVA_OPTS 
 
-### C2S_KEY
+This environment variable is used to setup a JVM argument, such as memory configuration.
 
-PLS supports Jasypt to decrypt the encrypted properties. `C2S_KEY` is used as a password for encryption. The encrypted properties should be wrapped in `ENC(...)` in the pls-config.properties file. There is no default value for `C2S_KEY`, so it must be provided.
+`docker run --name pls -e "JAVA_OPTS=-Xms512m -Xmx700m -Xss1m" -d bhits/pls:latest`
 
-`docker run --name pls -e CATALINA_OPTS="-DC2S_KEY=9HPcr8z634" -d bhits/pls:latest`
+### DEFAULT_PROGRAM_ARGS 
 
-### AUTO_SCAN
+This environment variable is used to setup an application argument. The default value of is: "--spring.profiles.active=application-default, docker".
 
-This variable is used to configure [logback auto scan](http://logback.qos.ch/manual/configuration.html#autoScan) feature, so the expected value for this property is `true` or `false`. If `AUTO_SCAN=true`, logback will scan for changes in the included external configuration file and reconfigure itself when it detects a change. The default value is `true`.
-
-`docker run --name pls -e CATALINA_OPTS="-DAUTO_SCAN=false" -d bhits/pls:latest`
-
-### SCAN_PERIOD
-
-This variable is used to configure [logback auto scan period](http://logback.qos.ch/manual/configuration.html#autoScan) configuration. If `SCAN_PERIOD=30 seconds`, logback will scan the external file for changes for every 30 seconds. The default value is `1 seconds`.
-
-`docker run --name pls -e CATALINA_OPTS="-DSCAN_PERIOD=30 SECONDS" -d bhits/pls:latest`
+`docker run --name pls -e DEFAULT_PROGRAM_ARGS="--spring.profiles.active=application-default,ssl,docker" -d bhits/pls:latest`
 
 # Supported Docker Versions
 
