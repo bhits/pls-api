@@ -26,7 +26,8 @@ Be sure to familiarize yourself with the repository's [README.md](https://github
 
 `docker run  --name pls -d bhits/pls:latest <additional program arguments>`
 
-*NOTE: In order for this API to fully function as a microservice in the Consent2Share application, it is required to setup the dependency microservices and the support level infrastructure. Please refer to the Consent2Share Deployment Guide in the corresponding Consent2Share release (see [Consent2Share Releases Page](https://github.com/bhits/consent2share/releases)) for instructions to setup the Consent2Share infrastructure.* 
+*NOTE: In order for this API to fully function as a microservice in the Consent2Share application, it is required to setup the dependency microservices and the support level infrastructure. Please refer to the Consent2Share Deployment Guide in the corresponding Consent2Share release (see [Consent2Share Releases Page](https://github.com/bhits/consent2share/releases)) for instructions to setup the Consent2Share infrastructure.*
+ 
 ## Configure
 
 The Spring profiles `application-default` and `docker` are activated by default when building images.
@@ -59,7 +60,7 @@ This environment variable is used to setup a JVM argument, such as memory config
 
 ### DEFAULT_PROGRAM_ARGS 
 
-This environment variable is used to setup an application argument. The default value of is: "--spring.profiles.active=application-default, docker".
+This environment variable is used to setup an application argument. The default value is: "--spring.profiles.active=application-default, docker".
 
 `docker run --name pls -e DEFAULT_PROGRAM_ARGS="--spring.profiles.active=application-default,ssl,docker" -d bhits/pls:latest`
 
