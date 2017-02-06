@@ -29,7 +29,7 @@ To build the project, navigate to the folder that contains the [**parent** `pom.
 
 This API uses *[MySQL](https://www.mysql.com/)* for persistence and *[Flyway](https://flywaydb.org/)* for database migration. It requires having a database user account with Object and DDL Rights to a schema with the default name `pls`. Please see [Configure](#configure) section for details of configuring the data source. 
 
-A [SQL file](https://github.com/bhits/pls-api/blob/master/npi-db-sample/npi-db-sample.sql) is provided with this project to populate it with a small set of sample provider data.
+A [SQL file](https://github.com/bhits/pls-api/blob/master/pls-db-sample/pls_db_sample.sql) is provided with this project to populate it with a small set of sample provider data.
 
 ### Commands
 
